@@ -1,97 +1,57 @@
 package com.BooksOcean.Backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
+import java.util.Set;
+
 @Table(name = "buyer")
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Buyer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "firstName")
-    private String firstName;
-
-    @Column(name = "lastName")
-    private String lastName;
+    @Column(name = "user_id")
+    private Long id;
 
     @Column(name = "email")
-    private String email;
+    private String username;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "salt")
+    private String salt;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "salt")
-    private int salt;
+    @Column(name = "account_non_expired")
+    private boolean accountNonExpired;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 
-    public Buyer() {
-    }
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked;
 
-    public Buyer(String firstName, String lastName, String email, String password, int salt, String address) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
-        this.address = address;
-    }
+    @Column(name = "credentials_non_expired")
+    private boolean credentialsNonExpired;
 
-    public int getId() {
-        return id;
-    }
+    @Column(name = "provider_id")
+    private String providerId;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
+    private Set<Role> roles;
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getSalt() {
-        return salt;
-    }
-
-    public void setSalt(int salt) {
-        this.salt = salt;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

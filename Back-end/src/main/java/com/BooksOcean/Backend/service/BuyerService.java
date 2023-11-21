@@ -1,9 +1,9 @@
 package com.BooksOcean.Backend.service;
 
-import com.BooksOcean.Backend.entity.Buyer;
-import org.springframework.stereotype.Service;
+import com.BooksOcean.Backend.request.BuyerDTO;
+import com.BooksOcean.Backend.response.BaseResponse;
 
-@Service
 public interface BuyerService {
-    public Buyer addBuyer(Buyer buyer);
+
+    BaseResponse registerAccount(BuyerDTO buyerDTO);
 }

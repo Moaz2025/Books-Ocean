@@ -54,7 +54,6 @@ const Login: React.FC = () => {
     };
     login(form)
       .then((responce: LoginResponse) => {
-        console.log(responce);
         
         if(responce.status! < 300){
           navigate('/home');

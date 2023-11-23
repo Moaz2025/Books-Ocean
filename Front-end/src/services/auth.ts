@@ -1,6 +1,7 @@
 import { AuthResponse, LoginForm, LoginResponse, SignUpForm } from "../model/auth";
 import axios, {AxiosResponse} from "axios";
 import { UserCredentials } from "../model/user";
+import { json } from "stream/consumers";
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 const userCredentialsNameInStorage = 'credentials'
 
@@ -21,34 +22,53 @@ export const login = async (form: LoginForm): Promise<LoginResponse> => {
                 withCredentials: true 
             } 
         );
+        
         const authResponse: LoginResponse = {
-            status: response.status,
-            credentials: response.data.credentials,
-            message: response.data.message
+            status: response.status!,
+            id: response.data.id!,
+            userType: response.data.userType!,
+            token: response.data.token!,
+            message: response.data.message!
         };
-        const credits: UserCredentials = authResponse.credentials!;
+        
+        const credits: UserCredentials = {
+            id: authResponse.id!,
+            userType: authResponse.userType!,
+            token: authResponse.token!
+        };
+        
         localStorage.setItem(userCredentialsNameInStorage, JSON.stringify(credits));
+        
         return authResponse;
     }catch(error:any){
         console.error('Login Failure: ', error);
         const authResponse: LoginResponse = {
-            status: 500,
-            message: 'Server error'
+            status: error.response.status,
+            message: error.response.data.message,
         };
-        
         return authResponse
     }
 
 }
 
-export const logout = (): void => {
-    localStorage.removeItem(userCredentialsNameInStorage);
+export const logout = async (): Promise<void> => {
+    const credits = JSON.parse(localStorage.getItem(userCredentialsNameInStorage)!);
     try{
-        axios.post(`${API_URL}/auth/logout`)
+        console.log("credits = logout ,", credits);
+        
+        const response = await axios.post(`${API_URL}/auth/logout`,
+            JSON.stringify(credits),
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true 
+            } 
+        );
+        console.log(response);
+        localStorage.removeItem(userCredentialsNameInStorage);
+        
     }catch(error:any){
         console.error(error)
     }
-
 };
 
 export const isAuthenticated = (): boolean => {
@@ -84,13 +104,18 @@ export const signUp = async (form: SignUpForm): Promise<AuthResponse> => {
           message: response.data.message,
           type: response.status < 300 ? 'success' : 'error'
         };
+        console.log(authResponse);
+        
         return authResponse;
       } catch (error: any) {
-        console.error('Signup error:', error.message);
+        console.error('Signup error:', error);
         const authResponse: AuthResponse = {
-            type: 'error',
-            message: 'Sign Up failure due to server issue',
-        };
+            status: error.response.status,
+            message: error.response.data.message,
+            type: error.response.status < 300 ? 'success' : 'error'
+          };
+        console.log("error = ", authResponse);
+          
         return authResponse
       }
 };

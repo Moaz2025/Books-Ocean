@@ -7,11 +7,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { router } from '../../services/router';
 
 const Home = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const [loading, setLoading] = useState(true);
   const handleLogout = () =>{
-    logout()
-    navigate('/login')
+    logout().then(()=>{
+      navigate('/login')
+    })
   }
   useEffect(()=>{
     const checkAuthentication = async () => {

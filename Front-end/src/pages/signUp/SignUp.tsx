@@ -21,16 +21,10 @@ import { router } from '../../services/router';
 import { CircularProgress } from '@mui/material';
 import OAuth from '../../components/OAuth';
 const defaultTheme = createTheme();
-var navigateTo = (to:string)=>{}
 export const notify = (notification:string, type?: string) => {
     switch (type) { 
         case 'success':
           toast.success(notification)
-          const routing = setTimeout(
-            ()=>{
-              navigateTo('/login')
-            },3000
-          )
           break;
         case 'error':
           toast.error(notification)
@@ -56,7 +50,11 @@ export default function SignUp() {
       .then((responce: AuthResponse) => {
         notify(responce.message!, responce.type);
         if(responce.status! < 300 || responce.type == 'success'){
-          navigate('/login');
+          const routing = setTimeout(
+            ()=>{
+              navigate('/login')
+            },3000
+          )
         }
       })
       .catch((error) => {

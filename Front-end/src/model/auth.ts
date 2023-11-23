@@ -23,7 +23,9 @@ export interface SignUpForm{
 }
 
 export interface LoginResponse {
-    status: number
+    status?: number
     message?: string
-    credentials?: UserCredentials
+    userType?:string
+    id?:number
+    token?:string
 }

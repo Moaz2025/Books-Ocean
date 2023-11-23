@@ -12,19 +12,33 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FormControl, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { CircularProgress, FormControl, FormLabel, Radio, RadioGroup } from '@mui/material';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 
-import { login } from '../../services/auth';
-import { AuthResponse, LoginForm } from '../../model/auth';
+import { getUserCredentials, isAuthenticated, login } from '../../services/auth';
+import { AuthResponse, LoginForm, LoginResponse } from '../../model/auth';
 import { notify } from '../signUp/SignUp';
+import { UserCredentials } from '../../model/user';
+import { router } from '../../services/router';
+import OAuth from '../../components/OAuth';
 const defaultTheme = createTheme();
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  useEffect(()=>{
+    const checkAuthentication = async () => {
+      const route = router();
+      if (route != '/login') {
+        navigate(route);
+      }
+      setLoading(false);
+    };
+    checkAuthentication()
+  }, [])
   const [userType, setUserType] = useState<string>('buyer');
   const handleUserTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUserType(event.target.value);
@@ -33,31 +47,37 @@ const Login: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      type: data.get('user-type')
-    });
     const form: LoginForm = {
       email: data.get('email') as string,
       password: data.get('password') as string, 
       userType: data.get('user-type')? userType : 'buyer'
     };
     login(form)
-      .then((responce: AuthResponse) => {
+      .then((responce: LoginResponse) => {
+        console.log(responce);
+        
         if(responce.status! < 300){
-          navigate('/login');
+          navigate('/home');
+        }else{          
+          notify(responce.message? responce.message : 'Login failed', 'error');
         }
       })
       .catch((error) => {
         console.log(error);
-        
-        notify('Registeration failure', 'error');
+        notify('Login failure', 'error');
       })
   };
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
+        <ToastContainer />
         <CssBaseline />
         <Box
           sx={{
@@ -114,7 +134,7 @@ const Login: React.FC = () => {
               variant="contained"
               sx={{ mt: 2, mb: 2 }}
             >
-              Sign In
+              Log In
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -123,6 +143,10 @@ const Login: React.FC = () => {
                 </Link>
               </Grid>
             </Grid>
+          </Box>
+          <Box sx={{mt: 1}}>
+            <h3 style={{textAlign: 'center'}}>Or</h3>
+            <OAuth />
           </Box>
         </Box>
       </Container>

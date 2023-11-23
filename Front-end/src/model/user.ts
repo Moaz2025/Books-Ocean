@@ -20,3 +20,8 @@ export class User{
         
     }
 }
+export interface UserCredentials{
+    userType:string
+    id:number
+    token:string
+}

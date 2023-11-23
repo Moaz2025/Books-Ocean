@@ -15,8 +15,11 @@ import { signUp } from '../../services/auth';
 import { AuthResponse, SignUpForm } from '../../model/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import { error, log } from 'console';
-// TODO remove, this demo shouldn't need to reset the theme.
+
+import {useState, useEffect} from 'react'
+import { router } from '../../services/router';
+import { CircularProgress } from '@mui/material';
+import OAuth from '../../components/OAuth';
 const defaultTheme = createTheme();
 var navigateTo = (to:string)=>{}
 export const notify = (notification:string, type?: string) => {
@@ -52,7 +55,7 @@ export default function SignUp() {
     signUp(form)
       .then((responce: AuthResponse) => {
         notify(responce.message!, responce.type);
-        if(responce.status! < 300){
+        if(responce.status! < 300 || responce.type == 'success'){
           navigate('/login');
         }
       })
@@ -60,8 +63,24 @@ export default function SignUp() {
         notify('Registeration failure', 'error');
       })
   };
-  
-  
+  const [loading, setLoading] = useState(true);
+  useEffect(()=>{
+    const checkAuthentication = async () => {
+      const route = router();
+      if (route != '/signup' && route != '/login') {
+        navigate(route);
+      }
+      setLoading(false);
+    };
+    checkAuthentication()
+  }, [])
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -142,6 +161,10 @@ export default function SignUp() {
                 </Link>
               </Grid>
             </Grid>
+          </Box>
+          <Box sx={{mt: 1}}>
+            <h3 style={{textAlign: 'center'}}>Or</h3>
+            <OAuth />
           </Box>
         </Box>
       </Container>

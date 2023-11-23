@@ -1,46 +1,68 @@
-import { AuthResponse, LoginForm, SignUpForm } from "../model/auth";
+import { AuthResponse, LoginForm, LoginResponse, SignUpForm } from "../model/auth";
 import axios, {AxiosResponse} from "axios";
-const API_URL = process.env.API_URL || 'http://localhost:8080';
+import { UserCredentials } from "../model/user";
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+const userCredentialsNameInStorage = 'credentials'
 
-export const login = async (form: LoginForm): Promise<AuthResponse> => {
+export const login = async (form: LoginForm): Promise<LoginResponse> => {
     // Just for testing !!
-    localStorage.setItem('token', 'testing login');
+    // var userCredits:UserCredentials;
+    // userCredits = {
+    //     userType: form.userType,
+    //     id: 12,
+    //     token: 'kfhen1547'
+    // }
+    // localStorage.setItem(userCredentialsNameInStorage, JSON.stringify(userCredits));
     try{
-        const response: AxiosResponse<AuthResponse> = await axios.post(`${API_URL}/auth/login`,
+        const response: AxiosResponse<LoginResponse> = await axios.post(`${API_URL}/auth/login`,
             JSON.stringify(form),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true 
             } 
         );
-        
-        const authResponse: AuthResponse = {
-            token: response.data.token,
+        const authResponse: LoginResponse = {
             status: response.status,
-            message: response.data.message,
+            credentials: response.data.credentials,
+            message: response.data.message
         };
-        localStorage.setItem('token', authResponse.token!);
+        const credits: UserCredentials = authResponse.credentials!;
+        localStorage.setItem(userCredentialsNameInStorage, JSON.stringify(credits));
         return authResponse;
     }catch(error:any){
         console.error('Login Failure: ', error);
-        const authResponse: AuthResponse = {
-            type: 'success',
-            message: 'Sign in failure',
+        const authResponse: LoginResponse = {
+            status: 500,
+            message: 'Server error'
         };
+        
         return authResponse
     }
 
 }
 
 export const logout = (): void => {
-    localStorage.removeItem('token');
+    localStorage.removeItem(userCredentialsNameInStorage);
+    try{
+        axios.post(`${API_URL}/auth/logout`)
+    }catch(error:any){
+        console.error(error)
+    }
+
 };
 
 export const isAuthenticated = (): boolean => {
-    const token = localStorage.getItem('token');
-    console.log(token);
-    
-    return !!token;
+    const credits = localStorage.getItem(userCredentialsNameInStorage);
+
+    return !credits?.toLowerCase().includes('undefined');
+};
+
+export const getUserCredentials = (): UserCredentials | null => {
+    if(isAuthenticated()){
+        const credits: UserCredentials = JSON.parse(localStorage.getItem(userCredentialsNameInStorage)!);
+        return credits
+    }
+    return null;
 };
 
 export const signUp = async (form: SignUpForm): Promise<AuthResponse> => {
@@ -48,33 +70,7 @@ export const signUp = async (form: SignUpForm): Promise<AuthResponse> => {
     let lastName = form.lastName
     let email = form.email
     let password = form.password
-    console.log({
-        firstName,
-        lastName,
-        email,
-        password,
-    });
-    if(firstName.length < 3 || lastName.length < 3){
-        const response: AuthResponse = {
-            type: 'error',
-            message: 'Name length must be >= 3'
-        };
-        return response
-    }
-    if(email.length <= 3 ){
-        const response: AuthResponse = {
-            type: 'error',
-            message: 'Enter a valid e-mail'
-        };
-        return response
-    }
-    if(password.length < 8){
-        const response: AuthResponse = {
-            type: 'error',
-            message: 'Password length must be >= 8 length'
-        };
-        return response
-    }
+    
     try {
         const response: AxiosResponse<AuthResponse> = await axios.post(`${API_URL}/auth/signup`,
             JSON.stringify(form),
@@ -84,7 +80,6 @@ export const signUp = async (form: SignUpForm): Promise<AuthResponse> => {
             } 
         );
         const authResponse: AuthResponse = {
-          token: response.data.token,
           status: response.status,
           message: response.data.message,
           type: response.status < 300 ? 'success' : 'error'

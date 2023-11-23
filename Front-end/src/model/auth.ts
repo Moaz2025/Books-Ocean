@@ -1,3 +1,5 @@
+import { Token } from "typescript";
+import { UserCredentials } from "./user";
 
 export interface AuthResponse{
     //type: success | error etc
@@ -18,4 +20,10 @@ export interface SignUpForm{
     password: string;
     firstName: string;
     lastName: string;
+}
+
+export interface LoginResponse {
+    status: number
+    message?: string
+    credentials?: UserCredentials
 }

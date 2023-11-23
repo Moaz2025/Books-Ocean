@@ -1,10 +1,3 @@
-// import Home from "./pages/home/Home";
-// function App() {
-//   return (
-//     <Home />
-//   );
-// }
-// import Home from "./pages/home/Home";
 import Root from "./pages/Root";
 import {
   createBrowserRouter,
@@ -15,14 +8,22 @@ import {
 import Home from "./pages/home/Home";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/signUp/SignUp";
+import PageNotFound from "./pages/not-found/NotFound";
+import Admin from "./pages/dashboard/admin";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Root />}>
-      <Route path="/" element={<Home />} />
+      <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
-      {/* ... etc. */}
+      <Route path="admin" element={<Admin />} />
+
+      {/* Set default routing as log in page*/}
+      <Route path="/" element={<Login />} />
+      
+      {/* 404 page - render this when no other routes match */}
+      <Route path="*" element={<PageNotFound />} />
     </Route>
   )
 );

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button } from '@mui/material';
 import { isAuthenticated } from '../../services/auth'
 import { useNavigate } from 'react-router-dom';
@@ -5,8 +6,7 @@ import {useEffect, useState} from 'react'
 import { logout } from '../../services/auth';
 import CircularProgress from '@mui/material/CircularProgress';
 import { router } from '../../services/router';
-
-const Home = () => {
+const Admin = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const handleLogout = () =>{
@@ -16,7 +16,7 @@ const Home = () => {
   useEffect(()=>{
     const checkAuthentication = async () => {
       const route = router();
-      if (route != '/home') {
+      if (route != '/admin') {
         navigate(route);
       }
       setLoading(false);
@@ -31,10 +31,13 @@ const Home = () => {
     );
   }
   return (
-    <Button onClick={handleLogout}>
-      Logout
-    </Button>
+    <div>
+      Dash Board
+      <Button onClick={handleLogout}>
+        Logout
+      </Button>
+    </div>
   )
 }
 
-export default Home
+export default Admin

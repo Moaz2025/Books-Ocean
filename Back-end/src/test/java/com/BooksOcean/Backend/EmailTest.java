@@ -1,37 +1,38 @@
 package com.BooksOcean.Backend;
 
+import com.BooksOcean.Backend.service.Validation;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EmailTest {
     @Test
     void test1(){
-        User user = new User();
-        assertTrue(user.validateEmail("M@yahoo.com"));
+        Validation validation = new Validation();
+        assertTrue(validation.validateEmail("M@yahoo.com"));
     }
 
     @Test
     void test2(){
-        User user = new User();
-        assertTrue(user.validateEmail("ahmed.mohamed@gmail.com"));
+        Validation validation = new Validation();
+        assertTrue(validation.validateEmail("ahmed.mohamed@gmail.com"));
     }
 
     @Test
     void test3(){
-        User user = new User();
-        assertTrue(user.validateEmail("ayman@alexu.edu.eg"));
+        Validation validation = new Validation();
+        assertTrue(validation.validateEmail("ayman@alexu.edu.eg"));
     }
 
     @Test
     void test4(){
-        User user = new User();
-        assertTrue(user.validateEmail("khaled#@yahoo.corporate"));
+        Validation validation = new Validation();
+        assertTrue(validation.validateEmail("khaled#@yahoo.corporate"));
     }
 
     @Test
     void test5(){
-        User user = new User();
-        assertFalse(user.validateEmail("M#yahoo.com"));
+        Validation validation = new Validation();
+        assertFalse(validation.validateEmail("M#yahoo.com"));
     }
 
 }

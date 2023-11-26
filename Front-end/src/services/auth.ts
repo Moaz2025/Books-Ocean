@@ -101,17 +101,17 @@ export const signUp = async (form: SignUpForm): Promise<AuthResponse> => {
         );
         const authResponse: AuthResponse = {
           status: response.status,
-          message: response.data.message,
+          message:JSON.stringify(response.data),
           type: response.status < 300 ? 'success' : 'error'
         };
-        console.log(authResponse);
+        console.log(response);
         
         return authResponse;
       } catch (error: any) {
         console.error('Signup error:', error);
         const authResponse: AuthResponse = {
             status: error.response.status,
-            message: error.response.data.message,
+            message: JSON.stringify(error.response.data),
             type: error.response.status < 300 ? 'success' : 'error'
           };
         console.log("error = ", authResponse);

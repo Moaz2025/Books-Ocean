@@ -1,7 +1,7 @@
 package com.BooksOcean.Backend.service.impl;
 
 import com.BooksOcean.Backend.entity.Buyer;
-import com.BooksOcean.Backend.entity.Role;
+
 import com.BooksOcean.Backend.exception.BaseException;
 import com.BooksOcean.Backend.repository.BuyerRepository;
 import com.BooksOcean.Backend.request.BuyerDTO;
@@ -21,7 +21,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class BuyerServiceImpl implements BuyerService {
 
-    private final com.BooksOcean.Backend.repository.RoleRepository roleRepository;
+    //private final com.BooksOcean.Backend.repository.RoleRepository roleRepository;
 
     private final BuyerRepository buyerRepository;
 
@@ -50,14 +50,14 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Buyer insertBuyer(BuyerDTO buyerDTO) {
         Buyer buyer = new Buyer();
-        buyer.setUsername(buyerDTO.getUsername());
+        buyer.setEmail(buyerDTO.getEmail());
         buyer.setPassword(passwordEncoder.encode(buyerDTO.getPassword()));
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByName(buyerDTO.getRole()));
-        buyer.setRoles(roles);
+        //Set<Role> roles = new HashSet<>();
+        //roles.add(roleRepository.findByName(buyerDTO.getRole()));
+        //buyer.setRoles(roles);
 
-        buyer.setEnabled(true);
+        //buyer.setEnabled(true);
 
         return buyer;
     }
@@ -75,13 +75,13 @@ public class BuyerServiceImpl implements BuyerService {
             throw new BaseException(String.valueOf(HttpStatus.SERVICE_UNAVAILABLE.value()), "Service Unavailable");
         }
 
-        List<String> roles = roleRepository.findAll().stream().map(Role::getName).toList();
+        //List<String> roles = roleRepository.findAll().stream().map(Role::getName).toList();
 
-        if(!roles.contains(buyerDTO.getRole())){
-            throw new BaseException(String.valueOf(HttpStatus.BAD_REQUEST.value()), "Invalid role");
-        }
+//        if(!roles.contains(buyerDTO.getRole())){
+//            throw new BaseException(String.valueOf(HttpStatus.BAD_REQUEST.value()), "Invalid role");
+//        }
 
-        Buyer buyer = buyerRepository.findByUsername(buyerDTO.getUsername());
+        Buyer buyer = buyerRepository.findByEmail(buyerDTO.getEmail());
 
         if(!ObjectUtils.isEmpty(buyer)){
             throw new BaseException(String.valueOf(HttpStatus.BAD_REQUEST.value()), "User had existed!!!");

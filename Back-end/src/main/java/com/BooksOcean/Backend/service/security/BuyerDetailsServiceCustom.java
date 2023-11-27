@@ -21,8 +21,8 @@ public class BuyerDetailsServiceCustom implements UserDetailsService {
     private BuyerRepository buyerRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        BuyerDetailsCustom buyerDetailsCustom = getBuyerDetailsCustom(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        BuyerDetailsCustom buyerDetailsCustom = getBuyerDetailsCustom(email);
 
         if(ObjectUtils.isEmpty(buyerDetailsCustom)){
             throw new UsernameNotFoundException("User not found");
@@ -31,22 +31,22 @@ public class BuyerDetailsServiceCustom implements UserDetailsService {
     }
 
     private BuyerDetailsCustom getBuyerDetailsCustom(String email){
-        Buyer buyer = buyerRepository.findByUsername(email);
+        Buyer buyer = buyerRepository.findByEmail(email);
 
         if(ObjectUtils.isEmpty(buyer)){
             throw new BaseException(String.valueOf(HttpStatus.BAD_REQUEST), "User not found");
         }
 
         return new BuyerDetailsCustom(
-                buyer.getUsername(),
-                buyer.getPassword(),
-                buyer.getRoles().stream()
-                        .map(r -> new SimpleGrantedAuthority(r.getName()))
-                        .collect(Collectors.toList()),
-                buyer.isEnabled(),
-                buyer.isAccountNonExpired(),
-                buyer.isAccountNonLocked(),
-                buyer.isCredentialsNonExpired()
+                buyer.getEmail(),
+                buyer.getPassword()
+//                buyer.getRoles().stream()
+//                        .map(r -> new SimpleGrantedAuthority(r.getName()))
+//                        .collect(Collectors.toList()),
+//                buyer.isEnabled(),
+//                buyer.isAccountNonExpired(),
+//                buyer.isAccountNonLocked(),
+//                buyer.isCredentialsNonExpired()
         );
     }
 }

@@ -24,16 +24,16 @@ public class BuyerDetailsCustom implements UserDetails {
 
     private boolean credentialsNonExpired;
 
-    public BuyerDetailsCustom(String username, String password, List<GrantedAuthority> authorities,
-                              boolean isEnabled, boolean accountNonExpired, boolean accountNonLocked,
-                              boolean credentialsNonExpired){
+    public BuyerDetailsCustom(String username, String password /*List<GrantedAuthority> authorities,
+//                              boolean isEnabled, boolean accountNonExpired, boolean accountNonLocked,
+//                              boolean credentialsNonExpired*/){
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
-        this.isEnabled = isEnabled;
-        this.accountNonExpired = accountNonExpired;
-        this.accountNonLocked = accountNonLocked;
-        this.credentialsNonExpired = credentialsNonExpired;
+//        this.authorities = authorities;
+//        this.isEnabled = isEnabled;
+//        this.accountNonExpired = accountNonExpired;
+//        this.accountNonLocked = accountNonLocked;
+//        this.credentialsNonExpired = credentialsNonExpired;
     }
 
 

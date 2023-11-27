@@ -13,11 +13,11 @@ import java.lang.reflect.Field;
 @NoArgsConstructor
 public class BuyerDTO {
 
-    private String username;
+    private String email;
 
     private String password;
 
-    private String role;
+    //private String role;
 
     public String checkProperties() throws IllegalAccessException {
         for(Field f : getClass().getDeclaredFields()){

@@ -4,7 +4,7 @@ import com.BooksOcean.Backend.entity.Buyer;
 import com.BooksOcean.Backend.entity.Provider;
 import com.BooksOcean.Backend.exception.BaseException;
 import com.BooksOcean.Backend.repository.BuyerRepository;
-import com.BooksOcean.Backend.repository.RoleRepository;
+
 import com.BooksOcean.Backend.service.oauth2.OAuth2BuyerDetails;
 import com.BooksOcean.Backend.service.oauth2.OAuth2BuyerDetailsFactory;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class CustomOAuth2BuyerDetailsService extends DefaultOAuth2UserService {
 
     private final BuyerRepository buyerRepository;
-    private final RoleRepository roleRepository;
+    //private final RoleRepository roleRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -52,7 +52,7 @@ public class CustomOAuth2BuyerDetailsService extends DefaultOAuth2UserService {
             throw new BaseException("400", "not found");
         }
 
-        Optional<Buyer> buyer = buyerRepository.findByUsernameAndProviderId(
+        Optional<Buyer> buyer = buyerRepository.findByEmailAndProviderId(
                 oAuth2BuyerDetails.getEmail(),
                 oAuth2UserRequest.getClientRegistration().getRegistrationId());
         Buyer buyerDetails;
@@ -69,29 +69,29 @@ public class CustomOAuth2BuyerDetailsService extends DefaultOAuth2UserService {
             buyerDetails = registerNewOAuthBuyerDetails(oAuth2UserRequest, oAuth2BuyerDetails);
         }
         return new OAuth2BuyerDetailsCustom(
-                buyerDetails.getId(),
-                buyerDetails.getUsername(),
-                buyerDetails.getPassword(),
-                buyerDetails.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList()));
+                //buyerDetails.getId(),
+                buyerDetails.getEmail(),
+                buyerDetails.getPassword()
+                /*buyerDetails.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList())*/);
     }
 
     public Buyer registerNewOAuthBuyerDetails(OAuth2UserRequest oAuth2UserRequest, OAuth2BuyerDetails oAuth2BuyerDetails){
         Buyer buyer = new Buyer();
-        buyer.setUsername(oAuth2BuyerDetails.getEmail());
+        buyer.setEmail(oAuth2BuyerDetails.getEmail());
         buyer.setFirstName(oAuth2BuyerDetails.getFirstName());
         buyer.setLastName(oAuth2BuyerDetails.getLastName());
         buyer.setProviderId(oAuth2UserRequest.getClientRegistration().getRegistrationId());
-        buyer.setEnabled(true);
-        buyer.setCredentialsNonExpired(true);
-        buyer.setAccountNonLocked(true);
-        buyer.setAccountNonExpired(true);
-        buyer.setRoles(new HashSet<>());
-        buyer.getRoles().add(roleRepository.findByName("USER"));
+//        buyer.setEnabled(true);
+//        buyer.setCredentialsNonExpired(true);
+//        buyer.setAccountNonLocked(true);
+//        buyer.setAccountNonExpired(true);
+        //buyer.setRoles(new HashSet<>());
+        //buyer.getRoles().add(roleRepository.findByName("USER"));
         return buyerRepository.save(buyer);
     }
 
     public Buyer updateOAuthBuyerDetails(Buyer buyer, OAuth2BuyerDetails oAuth2BuyerDetails){
-        buyer.setUsername(oAuth2BuyerDetails.getEmail());
+        buyer.setEmail(oAuth2BuyerDetails.getEmail());
         buyer.setFirstName(oAuth2BuyerDetails.getFirstName());
         buyer.setLastName(oAuth2BuyerDetails.getLastName());
         return buyerRepository.save(buyer);

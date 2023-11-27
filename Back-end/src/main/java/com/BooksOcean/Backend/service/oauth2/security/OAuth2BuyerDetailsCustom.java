@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class OAuth2BuyerDetailsCustom implements OAuth2User,  UserDetails {
 
-    private Long id;
-    private String userName;
+    //private Long id;
+    private String email;
     private String password;
     private List<GrantedAuthority> authorities;
     private Map<String,Object> attributes;
@@ -20,11 +20,11 @@ public class OAuth2BuyerDetailsCustom implements OAuth2User,  UserDetails {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
 
-    public OAuth2BuyerDetailsCustom(Long id, String userName, String password, List<GrantedAuthority> authorities){
-        this.id = id;
-        this.userName = userName;
+    public OAuth2BuyerDetailsCustom(String email, String password){
+        //this.id = id;
+        this.email = email;
         this.password = password;
-        this.authorities = authorities;
+        //this.authorities = authorities;
 
     }
 
@@ -36,7 +36,7 @@ public class OAuth2BuyerDetailsCustom implements OAuth2User,  UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return email;
     }
 
     @Override
@@ -71,6 +71,6 @@ public class OAuth2BuyerDetailsCustom implements OAuth2User,  UserDetails {
 
     @Override
     public String getName() {
-        return String.valueOf(id);
+        return email;
     }
 }

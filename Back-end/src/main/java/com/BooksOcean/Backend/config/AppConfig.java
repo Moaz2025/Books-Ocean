@@ -52,6 +52,7 @@ public class AppConfig {
 
         http
                 .authorizeHttpRequests()
+                .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/user/**").hasAuthority("USER")
                 .anyRequest().authenticated()

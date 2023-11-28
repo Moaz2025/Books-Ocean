@@ -1,4 +1,4 @@
-package com.BooksOcean.Backend.services;
+package com.BooksOcean.Backend.service;
 
 import com.BooksOcean.Backend.entity.Buyer;
 import com.BooksOcean.Backend.repository.BuyerRepository;
@@ -16,6 +16,7 @@ public class BuyerService {
     public Buyer createBuyer(Buyer buyer) {
         return buyerRepository.save(buyer);
     }
+
     public Buyer getBuyerByEmail(String email){
         return buyerRepository.findById(email).orElse(null);
     }

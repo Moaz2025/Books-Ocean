@@ -4,8 +4,9 @@ import com.BooksOcean.Backend.entity.Admin;
 import com.BooksOcean.Backend.entity.Buyer;
 import com.BooksOcean.Backend.entity.LoginForm;
 import com.BooksOcean.Backend.entity.LoginResponse;
-import com.BooksOcean.Backend.services.AdminService;
-import com.BooksOcean.Backend.services.BuyerService;
+import com.BooksOcean.Backend.service.AdminService;
+import com.BooksOcean.Backend.service.BuyerService;
+import com.BooksOcean.Backend.service.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
+    Validation validation = new Validation();
     @Autowired
     private BuyerService buyerService;
     @Autowired
@@ -28,7 +30,7 @@ public class LoginController {
                 loginResponse.setMessage("User is not exist");
                 return new ResponseEntity<>(loginResponse, HttpStatus.BAD_REQUEST);
             }
-            if(loginForm.getPassword().equals(buyer.getPassword())){
+            if(validation.verifyPassword(loginForm.getPassword(),buyer.getPassword(),buyer.getSalt())){
                 loginResponse.setMessage("Login successfully");
                 loginResponse.setUserType("buyer");
                 loginResponse.setEmail(loginForm.getEmail());

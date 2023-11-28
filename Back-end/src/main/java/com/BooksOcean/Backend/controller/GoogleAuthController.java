@@ -1,10 +1,9 @@
 package com.BooksOcean.Backend.controller;
 
-import com.BooksOcean.Backend.entity.Admin;
 import com.BooksOcean.Backend.entity.Buyer;
 import com.BooksOcean.Backend.entity.LoginForm;
 import com.BooksOcean.Backend.entity.LoginResponse;
-import com.BooksOcean.Backend.services.BuyerService;
+import com.BooksOcean.Backend.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

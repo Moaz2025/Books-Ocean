@@ -1,6 +1,8 @@
 package com.BooksOcean.Backend.controller;
 
 import com.BooksOcean.Backend.entity.Buyer;
+import com.BooksOcean.Backend.entity.LoginForm;
+import com.BooksOcean.Backend.entity.LoginResponse;
 import com.BooksOcean.Backend.services.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,16 +13,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:3000")
 public class GoogleAuthController {
+    String defaultPassword = "google";
     @Autowired
     private BuyerService buyerService;
     @PostMapping("/google")
-    public ResponseEntity<String> signUp(@RequestBody Buyer buyer){
+    public ResponseEntity<LoginResponse> signUp(@RequestBody Buyer buyer){
         Buyer buyer1 = buyerService.getBuyerByEmail(buyer.getEmail());
         if (buyer1 == null){
+            buyer.setPassword(defaultPassword);
             buyerService.createBuyer(buyer);
-            return new ResponseEntity<>("Signed up successfully", HttpStatus.CREATED);
+            buyer1 = buyerService.getBuyerByEmail(buyer.getEmail());
         }
-        return new ResponseEntity<>("Email is already registered", HttpStatus.BAD_REQUEST);
+        LoginForm loginForm = new LoginForm();
+        loginForm.setEmail(buyer1.getEmail());
+        loginForm.setPassword(buyer1.getPassword());
+        loginForm.setUserType("buyer");
+        LoginController loginController = new LoginController();
+        return loginController.login(loginForm);
 
     }
 }

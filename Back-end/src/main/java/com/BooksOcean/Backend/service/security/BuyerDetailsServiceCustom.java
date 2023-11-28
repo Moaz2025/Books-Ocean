@@ -6,14 +6,12 @@ import com.BooksOcean.Backend.exception.BaseException;
 import com.BooksOcean.Backend.repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.ObjectUtils;
 
-import java.util.stream.Collectors;
+
 
 public class BuyerDetailsServiceCustom implements UserDetailsService {
 
@@ -40,13 +38,6 @@ public class BuyerDetailsServiceCustom implements UserDetailsService {
         return new BuyerDetailsCustom(
                 buyer.getEmail(),
                 buyer.getPassword()
-//                buyer.getRoles().stream()
-//                        .map(r -> new SimpleGrantedAuthority(r.getName()))
-//                        .collect(Collectors.toList()),
-//                buyer.isEnabled(),
-//                buyer.isAccountNonExpired(),
-//                buyer.isAccountNonLocked(),
-//                buyer.isCredentialsNonExpired()
         );
     }
 }

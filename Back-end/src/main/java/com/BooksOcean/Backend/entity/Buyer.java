@@ -27,23 +27,4 @@ public class Buyer {
     private String password;
 
     private String providerId;
-
-
-//    private boolean accountNonExpired;
-//
-//
-//    private boolean isEnabled;
-//
-//
-//    private boolean accountNonLocked;
-//
-//
-//    private boolean credentialsNonExpired;
-
-
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-//    private Set<Role> roles;
-
 }

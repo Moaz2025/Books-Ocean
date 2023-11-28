@@ -1,7 +1,6 @@
 package com.BooksOcean.Backend.service.oauth2.security;
 
 import com.BooksOcean.Backend.entity.Buyer;
-import com.BooksOcean.Backend.entity.Provider;
 import com.BooksOcean.Backend.exception.BaseException;
 import com.BooksOcean.Backend.repository.BuyerRepository;
 
@@ -10,7 +9,6 @@ import com.BooksOcean.Backend.service.oauth2.OAuth2BuyerDetailsFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -18,9 +16,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -69,10 +66,9 @@ public class CustomOAuth2BuyerDetailsService extends DefaultOAuth2UserService {
             buyerDetails = registerNewOAuthBuyerDetails(oAuth2UserRequest, oAuth2BuyerDetails);
         }
         return new OAuth2BuyerDetailsCustom(
-                //buyerDetails.getId(),
                 buyerDetails.getEmail(),
                 buyerDetails.getPassword()
-                /*buyerDetails.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList())*/);
+                );
     }
 
     public Buyer registerNewOAuthBuyerDetails(OAuth2UserRequest oAuth2UserRequest, OAuth2BuyerDetails oAuth2BuyerDetails){
@@ -81,12 +77,6 @@ public class CustomOAuth2BuyerDetailsService extends DefaultOAuth2UserService {
         buyer.setFirstName(oAuth2BuyerDetails.getFirstName());
         buyer.setLastName(oAuth2BuyerDetails.getLastName());
         buyer.setProviderId(oAuth2UserRequest.getClientRegistration().getRegistrationId());
-//        buyer.setEnabled(true);
-//        buyer.setCredentialsNonExpired(true);
-//        buyer.setAccountNonLocked(true);
-//        buyer.setAccountNonExpired(true);
-        //buyer.setRoles(new HashSet<>());
-        //buyer.getRoles().add(roleRepository.findByName("USER"));
         return buyerRepository.save(buyer);
     }
 

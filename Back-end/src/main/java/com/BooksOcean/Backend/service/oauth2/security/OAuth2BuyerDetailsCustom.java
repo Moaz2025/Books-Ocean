@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class OAuth2BuyerDetailsCustom implements OAuth2User,  UserDetails {
 
-    //private Long id;
     private String email;
     private String password;
     private List<GrantedAuthority> authorities;
@@ -21,11 +20,8 @@ public class OAuth2BuyerDetailsCustom implements OAuth2User,  UserDetails {
     private boolean credentialsNonExpired;
 
     public OAuth2BuyerDetailsCustom(String email, String password){
-        //this.id = id;
         this.email = email;
         this.password = password;
-        //this.authorities = authorities;
-
     }
 
 

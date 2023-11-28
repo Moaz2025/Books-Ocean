@@ -13,9 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -52,13 +49,6 @@ public class BuyerServiceImpl implements BuyerService {
         Buyer buyer = new Buyer();
         buyer.setEmail(buyerDTO.getEmail());
         buyer.setPassword(passwordEncoder.encode(buyerDTO.getPassword()));
-
-        //Set<Role> roles = new HashSet<>();
-        //roles.add(roleRepository.findByName(buyerDTO.getRole()));
-        //buyer.setRoles(roles);
-
-        //buyer.setEnabled(true);
-
         return buyer;
     }
 
@@ -74,12 +64,6 @@ public class BuyerServiceImpl implements BuyerService {
         }catch (IllegalAccessException e){
             throw new BaseException(String.valueOf(HttpStatus.SERVICE_UNAVAILABLE.value()), "Service Unavailable");
         }
-
-        //List<String> roles = roleRepository.findAll().stream().map(Role::getName).toList();
-
-//        if(!roles.contains(buyerDTO.getRole())){
-//            throw new BaseException(String.valueOf(HttpStatus.BAD_REQUEST.value()), "Invalid role");
-//        }
 
         Buyer buyer = buyerRepository.findByEmail(buyerDTO.getEmail());
 

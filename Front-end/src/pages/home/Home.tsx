@@ -5,8 +5,10 @@ import {useEffect, useState} from 'react'
 import { logout } from '../../services/auth';
 import CircularProgress from '@mui/material/CircularProgress';
 import { router } from '../../services/router';
+import { useTheme } from '../ThemeTogglerProvider';
 
 const Home = () => {
+  const {theme, toggleTheme} = useTheme();
   const navigate = useNavigate(); 
   const [loading, setLoading] = useState(true);
   const handleLogout = () =>{

@@ -25,8 +25,10 @@ import { notify } from '../signUp/SignUp';
 import { UserCredentials } from '../../model/user';
 import { router } from '../../services/router';
 import OAuth from '../../components/OAuth';
-const defaultTheme = createTheme();
+import { useTheme } from '../ThemeTogglerProvider';
+// const defaultTheme = createTheme();
 const Login: React.FC = () => {
+  const {theme, toggleTheme} = useTheme();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   useEffect(()=>{
@@ -74,7 +76,7 @@ const Login: React.FC = () => {
     );
   }
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <ToastContainer />
         <CssBaseline />

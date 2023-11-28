@@ -10,6 +10,7 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/signUp/SignUp";
 import PageNotFound from "./pages/not-found/NotFound";
 import Admin from "./pages/dashboard/admin";
+import { ThemeTogglerProvider } from "./pages/ThemeTogglerProvider";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,10 +31,10 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
-    <div>
+    <ThemeTogglerProvider>
       <RouterProvider router={router}></RouterProvider>
       {/* <RouterProvider router={router} /> */}
-    </div>
+    </ThemeTogglerProvider>
   )
 }
 

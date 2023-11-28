@@ -26,6 +26,6 @@ export interface LoginResponse {
     status?: number
     message?: string
     userType?:string
-    id?:number
+    email?:string
     token?:string
 }

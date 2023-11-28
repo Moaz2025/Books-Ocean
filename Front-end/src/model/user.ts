@@ -22,6 +22,6 @@ export class User{
 }
 export interface UserCredentials{
     userType:string
-    id:number
+    email:string
     token:string
 }

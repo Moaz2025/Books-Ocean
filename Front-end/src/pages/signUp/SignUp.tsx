@@ -20,7 +20,8 @@ import {useState, useEffect} from 'react'
 import { router } from '../../services/router';
 import { CircularProgress } from '@mui/material';
 import OAuth from '../../components/OAuth';
-const defaultTheme = createTheme();
+import { useTheme } from '../ThemeTogglerProvider';
+// const defaultTheme = createTheme();
 export const notify = (notification:string, type?: string) => {
     switch (type) { 
         case 'success':
@@ -36,7 +37,8 @@ export const notify = (notification:string, type?: string) => {
 }
 export default function SignUp() {
   const navigate = useNavigate();
-  
+  const {theme, toggleTheme} = useTheme();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -80,7 +82,7 @@ export default function SignUp() {
     );
   }
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <ToastContainer />
         <CssBaseline />

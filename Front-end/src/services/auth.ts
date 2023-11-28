@@ -25,14 +25,14 @@ export const login = async (form: LoginForm): Promise<LoginResponse> => {
         
         const authResponse: LoginResponse = {
             status: response.status!,
-            id: response.data.id!,
+            email: response.data.email!,
             userType: response.data.userType!,
             token: response.data.token!,
             message: response.data.message!
         };
         
         const credits: UserCredentials = {
-            id: authResponse.id!,
+            email: authResponse.email!,
             userType: authResponse.userType!,
             token: authResponse.token!
         };

@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "buyers")
+@Table(name = "admins")
 
-public class Buyer {
+public class Admin {
 
     @Id
     private String email;
@@ -16,5 +16,5 @@ public class Buyer {
     private String salt;
     private String password;
     private String token;
-
+    
 }

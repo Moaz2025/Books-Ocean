@@ -4,6 +4,7 @@ import com.BooksOcean.Backend.entity.Buyer;
 import com.BooksOcean.Backend.entity.LoginForm;
 import com.BooksOcean.Backend.entity.LoginResponse;
 import com.BooksOcean.Backend.service.BuyerService;
+import com.BooksOcean.Backend.service.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,9 @@ public class GoogleAuthController {
         loginResponse.setMessage("Login successfully");
         loginResponse.setUserType("buyer");
         loginResponse.setEmail(loginForm.getEmail());
-        loginResponse.setToken("156666"); //need to change
+        Token token = new Token();
+        buyer.setToken(token.generateToken());
+        buyerService.updateBuyer(buyer);
         return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
     }
 }

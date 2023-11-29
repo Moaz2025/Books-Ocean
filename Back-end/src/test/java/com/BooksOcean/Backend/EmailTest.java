@@ -26,7 +26,7 @@ public class EmailTest {
     @Test
     void test4(){
         Validation validation = new Validation();
-        assertTrue(validation.validateEmail("khaled#@yahoo.corporate"));
+        assertFalse(validation.validateEmail("khaled#@yahoo.corporate"));
     }
 
     @Test

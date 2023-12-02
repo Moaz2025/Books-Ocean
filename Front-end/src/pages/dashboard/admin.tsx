@@ -10,8 +10,9 @@ const Admin = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const handleLogout = () =>{
-    logout()
-    navigate('/login')
+    logout().then(()=>{
+      navigate('/login')
+    })
   }
   useEffect(()=>{
     const checkAuthentication = async () => {

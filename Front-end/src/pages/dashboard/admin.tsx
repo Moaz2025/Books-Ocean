@@ -6,10 +6,14 @@ import {useEffect, useState} from 'react'
 import { logout } from '../../services/auth';
 import CircularProgress from '@mui/material/CircularProgress';
 import { router } from '../../services/router';
+import ButtonAppBar from '../../components/AppBar';
+import DashboardAppBar from '../../components/AppBar';
+import CustomAppBar from '../../components/AppBar';
 const Admin = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const handleLogout = () =>{
+    console.log('Logging out!')
     logout().then(()=>{
       navigate('/login')
     })
@@ -31,12 +35,17 @@ const Admin = () => {
       </div>
     );
   }
+
+  const handleProfileOpen = () => {
+    navigate('/profile')
+  };
   return (
     <div>
-      Dash Board
-      <Button onClick={handleLogout}>
-        Logout
-      </Button>
+      <CustomAppBar 
+        onLogout={handleLogout}
+        onProfileOpen={handleProfileOpen}
+        appName="Books Ocean"
+      />
     </div>
   )
 }

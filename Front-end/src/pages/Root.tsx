@@ -2,6 +2,8 @@ import { Outlet } from 'react-router-dom'
 import React, { useState } from 'react';
 import { Button, ThemeProvider} from '@mui/material';
 import { getThemeByName } from '../config/theme';
+import BooksEdit from './dashboard/BooksEdit';
+import Admin from './dashboard/admin';
 export const ThemeContext = React.createContext((themeName: string): void => {});
 const Root: React.FC = (props) => {
   // State to hold the selected theme name

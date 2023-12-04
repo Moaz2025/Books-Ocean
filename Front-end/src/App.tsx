@@ -11,14 +11,23 @@ import SignUp from "./pages/signUp/SignUp";
 import PageNotFound from "./pages/not-found/NotFound";
 import Admin from "./pages/dashboard/admin";
 import { ThemeTogglerProvider } from "./pages/ThemeTogglerProvider";
+import BooksEdit from "./pages/dashboard/BooksEdit";
+import BooksAdd from "./pages/dashboard/BooksAdd";
+import Profile from "./pages/profile/Profile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Root />}>
-      <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
-      <Route path="admin" element={<Admin />} />
+      <Route path="home" element={<Home />}></Route>
+      
+      <Route path="admin" element={<Admin />} >
+        <Route path="edit" element={<BooksEdit />} />
+        <Route path="add" element={<BooksAdd />} />
+      </Route>
+
+      <Route path="profile" element={<Profile />} />
 
       {/* Set default routing as log in page*/}
       <Route path="/" element={<Login />} />

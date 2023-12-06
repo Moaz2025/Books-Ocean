@@ -14,20 +14,31 @@ import { ThemeTogglerProvider } from "./pages/ThemeTogglerProvider";
 import BooksEdit from "./pages/dashboard/BooksEdit";
 import BooksAdd from "./pages/dashboard/BooksAdd";
 import Profile from "./pages/profile/Profile";
+import About from "./pages/about/About";
+import HomeDefault from "./pages/home/HomeDefault";
+import DefaultAdmin from "./pages/dashboard/DefaultAdmin";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Root />}>
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
-      <Route path="home" element={<Home />}></Route>
-      
-      <Route path="admin" element={<Admin />} >
-        <Route path="edit" element={<BooksEdit />} />
-        <Route path="add" element={<BooksAdd />} />
+
+      {/* Home Route */}
+      <Route path="home" element={<Home />}>
+        <Route index element={<HomeDefault />} />
+        <Route path="about" element={<About />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
 
-      <Route path="profile" element={<Profile />} />
+      {/* Admin Route */}
+      <Route path="admin" element={<Admin />}>
+        <Route index element={<DefaultAdmin />} />
+        <Route path="edit" element={<BooksEdit />} />
+        <Route path="add" element={<BooksAdd />} />
+        <Route path="about" element={<About />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
 
       {/* Set default routing as log in page*/}
       <Route path="/" element={<Login />} />

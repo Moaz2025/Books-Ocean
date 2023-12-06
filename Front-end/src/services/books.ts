@@ -1,10 +1,28 @@
-import { Book } from "../model/book";
+import axios, { AxiosResponse } from "axios";
+import { Book, BooksResponse } from "../model/book";
+import { getUserCredentials } from "./auth";
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
-export const getBooks = async (): Promise<Book[]> => {
+export const getAllBooks = async (): Promise<Book[]> => {
+    try {
+        const token = getUserCredentials()?.token; // Replace with your actual access token
+        const response: AxiosResponse<BooksResponse> = await axios.get(`${API_URL}/data/getAll`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        // Handle the response data here
+        console.log(response.data);
+      } catch (error) {
+        // Handle errors here
+        console.error('Error fetching data:', error);
+      }
     return [
         {
             title: 'Clean Code',
             id: 1,
+            description: 'A clear and concise guide to basic Agile values and principles.',
             isbn: '978-0-13-235088-4',
             price: 34.99,
             author: 'Robert C. Martin',

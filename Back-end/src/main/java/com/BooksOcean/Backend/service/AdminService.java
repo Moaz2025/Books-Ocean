@@ -22,6 +22,10 @@ public class AdminService {
         return adminRepository.findById(email).orElse(null);
     }
 
+    public Admin getAdminByToken(String token){
+        return adminRepository.findByToken(token);
+    }
+
     public Admin updateAdmin(Admin admin) {
         return adminRepository.save(admin);
     }

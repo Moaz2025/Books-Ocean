@@ -2,31 +2,40 @@ package com.BooksOcean.Backend.controller;
 
 import com.BooksOcean.Backend.entity.Book;
 import com.BooksOcean.Backend.entity.SearchResponse;
+import com.BooksOcean.Backend.service.AdminService;
 import com.BooksOcean.Backend.service.BookService;
+import com.BooksOcean.Backend.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/data")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SearchController {
 
     @Autowired
     private BookService bookService;
-    @PostMapping("/search/title")
-    public ResponseEntity<SearchResponse> searchByTitle(@RequestBody Book book){
+    @Autowired
+    private BuyerService buyerService;
+    @Autowired
+    private AdminService adminService;
+    @PostMapping("/searchByTitle")
+    public ResponseEntity<SearchResponse> searchByTitle(@RequestHeader("Authorization") String token, @RequestBody String title){
+        token = token.replace("Bearer ", "");
         SearchResponse searchResponse = new SearchResponse();
-        Book dataBook = bookService.getBookByTitle(book.getTitle());
+        if(buyerService.getBuyerByToken(token) == null && adminService.getAdminByToken(token) == null){
+            searchResponse.setMessage("Not authorized user");
+            return new ResponseEntity<>(searchResponse, HttpStatus.FORBIDDEN);
+        }
+        Book dataBook = bookService.getBookByTitle(title);
         if (dataBook == null){
             searchResponse.setMessage("No book with this name");
-            return new ResponseEntity<>(searchResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(searchResponse, HttpStatus.NOT_FOUND);
         }
         searchResponse.setMessage("book exists");
         List<Book> books = new ArrayList<>();
@@ -35,13 +44,18 @@ public class SearchController {
         return new ResponseEntity<>(searchResponse, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/search/author")
-    public ResponseEntity<SearchResponse> searchByAuthor(@RequestBody Book book){
+    @PostMapping("/searchByAuthor")
+    public ResponseEntity<SearchResponse> searchByAuthor(@RequestHeader("Authorization") String token, @RequestBody String author){
+        token = token.replace("Bearer ", "");
         SearchResponse searchResponse = new SearchResponse();
-        List<Book> dataBooks = bookService.getBookByAuthor(book.getAuthor());
+        if(buyerService.getBuyerByToken(token) == null && adminService.getAdminByToken(token) == null){
+            searchResponse.setMessage("Not authorized user");
+            return new ResponseEntity<>(searchResponse, HttpStatus.FORBIDDEN);
+        }
+        List<Book> dataBooks = bookService.getBookByAuthor(author);
         if (dataBooks.isEmpty()){
             searchResponse.setMessage("No author with this name");
-            return new ResponseEntity<>(searchResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(searchResponse, HttpStatus.NOT_FOUND);
         }
         searchResponse.setMessage("Author exists");
         searchResponse.setBooks(dataBooks);

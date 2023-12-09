@@ -11,7 +11,7 @@ import SignUp from "./pages/signUp/SignUp";
 import PageNotFound from "./pages/not-found/NotFound";
 import Admin from "./pages/dashboard/admin";
 import { ThemeTogglerProvider } from "./pages/ThemeTogglerProvider";
-import BooksEdit from "./pages/dashboard/BooksEdit";
+import BookEdit from "./pages/dashboard/BooksEdit";
 import BooksAdd from "./pages/dashboard/BooksAdd";
 import Profile from "./pages/profile/Profile";
 import About from "./pages/about/About";
@@ -34,7 +34,7 @@ const router = createBrowserRouter(
       {/* Admin Route */}
       <Route path="admin" element={<Admin />}>
         <Route index element={<DefaultAdmin />} />
-        <Route path="edit" element={<BooksEdit />} />
+        <Route path=":id" element={<BookEdit />} />
         <Route path="add" element={<BooksAdd />} />
         <Route path="about" element={<About />} />
         <Route path="profile" element={<Profile />} />

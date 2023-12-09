@@ -1,6 +1,7 @@
 package com.BooksOcean.Backend.service;
 
 import com.BooksOcean.Backend.entity.Book;
+import com.BooksOcean.Backend.entity.Buyer;
 import com.BooksOcean.Backend.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class BookService {
 
     public Book createBook(Book book) {
         return bookRepository.save(book);
+    }
+
+    public Book getBookById(int id){
+        return bookRepository.findById(id).orElse(null);
     }
 
     public Book getBookByTitle(String title){

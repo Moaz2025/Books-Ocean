@@ -36,7 +36,9 @@ public class LoginController {
                 loginResponse.setUserType("buyer");
                 loginResponse.setEmail(loginForm.getEmail());
                 Token token = new Token();
-                buyer.setToken(token.generateToken());
+                String generatedToken = token.generateToken();
+                buyer.setToken(generatedToken);
+                loginResponse.setToken(generatedToken);
                 buyerService.updateBuyer(buyer);
                 return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
             }
@@ -61,7 +63,9 @@ public class LoginController {
                 loginResponse.setUserType("admin");
                 loginResponse.setEmail(loginForm.getEmail());
                 Token token = new Token();
-                admin.setToken(token.generateToken());
+                String generatedToken = token.generateToken();
+                admin.setToken(generatedToken);
+                loginResponse.setToken(generatedToken);
                 adminService.updateAdmin(admin);
                 return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
             }

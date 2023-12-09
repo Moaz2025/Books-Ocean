@@ -14,7 +14,7 @@ interface BookDisplayProps {
 
 const BookDisplay:React.FC<BookDisplayProps> = ({book, onClick}) => {
     return (
-        <Card sx={{ maxWidth: 345, m: 1 }}>
+        <Card sx={{ minWidth:140, width: 300, m: 1 }}>
           <CardActionArea onClick={onClick}>
             <Box sx={{ position: 'relative', height: 0, paddingTop: '66.6%' }}>
               <CardMedia
@@ -30,7 +30,7 @@ const BookDisplay:React.FC<BookDisplayProps> = ({book, onClick}) => {
                 {book.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {book.description}
+                {book.description? book.description.length < 50 ? book.description : book.description?.substring(0, 50) + '..' : ''}
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 {book.price.toFixed(2) + ' $'}

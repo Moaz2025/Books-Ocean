@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { Button, Container, CssBaseline, ThemeProvider } from '@mui/material';
+import { Button, Card, Container, CssBaseline, Grid, IconButton, Stack, TextField, ThemeProvider } from '@mui/material';
 import { isAuthenticated } from '../../services/auth'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from 'react-router-dom';
 import {useEffect, useState} from 'react'
 import { logout } from '../../services/auth';
@@ -18,8 +19,10 @@ import { useTheme } from '../ThemeTogglerProvider';
 import BookDisplay from '../../components/BookDisplay';
 import LoadingCircle from '../../components/LoadingCircle';
 const DefaultAdmin = () => {
-  const {theme, toggleTheme} = useTheme();
   const [books, setBooks] = useState<Book[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [titleFilter, setTitleFilter] = useState('');
+  const [authorFilter, setAuthorFilter] = useState('');
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [booksLoading, setBooksLoading] = useState(true);
@@ -31,8 +34,16 @@ const DefaultAdmin = () => {
   }
 
   const handleProfileOpen = () => {
-    navigate('/profile')
+    navigate('profile')
   };
+
+  const handleClickAddBook = () => {
+    navigate('add')
+  }
+
+  const onClickOnBook = (id:number) => {
+    navigate(`${id}`)
+  }
 
   useEffect(()=>{
     const checkAuthentication = async () => {
@@ -47,16 +58,62 @@ const DefaultAdmin = () => {
       .then(
         (value)=>{
           setBooksLoading(false)
-          setBooks(value)
+          setBooks(value);
+          setFilteredBooks(value);
         }
       )
   }, [])
+
+  useEffect(() => {
+    // Filter the books based on the current search criteria
+    const filtered = books.filter((book) => {
+      const titleMatches = book.title.toLowerCase().includes(titleFilter.toLowerCase());
+      const authorMatches = book.author.toLowerCase().includes(authorFilter.toLowerCase());
+
+      return titleMatches && authorMatches;
+    });
+
+    setFilteredBooks(filtered);
+  }, [titleFilter, authorFilter]);
+
   if (loading) {
-    <LoadingCircle></LoadingCircle>
+    return (<LoadingCircle></LoadingCircle>)
   }
 
   return (
-    <p>Admin Default</p>
+    <div>
+      <Stack width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+        <IconButton
+            sx={{m:0.2, width:1}}
+            edge="end"
+            color="inherit"
+            aria-label="profile"
+            size='medium'
+            onClick={handleClickAddBook}
+          >
+            {'Add Books'} 
+            <AddCircleIcon sx={{marginX:1}} />
+        </IconButton>
+        <TextField
+          label="Title"
+          value={titleFilter}
+          onChange={(e) => setTitleFilter(e.target.value)}
+        />
+
+        <TextField
+          label="Author"
+          value={authorFilter}
+          onChange={(e) => setAuthorFilter(e.target.value)}
+        />
+      </Stack>
+      
+      <Stack width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+        {filteredBooks.map((book) => 
+          <BookDisplay book={book} onClick={()=>onClickOnBook(book.id? book.id : 1)}/>
+        )}
+      </Stack>
+    </div>
+    
     // <ThemeProvider theme={theme}>
     //   <CustomAppBar 
     //       onLogout={handleLogout}

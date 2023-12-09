@@ -17,6 +17,7 @@ import Profile from "./pages/profile/Profile";
 import About from "./pages/about/About";
 import HomeDefault from "./pages/home/HomeDefault";
 import DefaultAdmin from "./pages/dashboard/DefaultAdmin";
+import BookUserPage from "./pages/home/BookUserPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       {/* Home Route */}
       <Route path="home" element={<Home />}>
         <Route index element={<HomeDefault />} />
+        <Route path=":id" element={<BookUserPage />} />
         <Route path="about" element={<About />} />
         <Route path="profile" element={<Profile />} />
       </Route>

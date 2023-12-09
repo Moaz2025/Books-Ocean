@@ -93,7 +93,7 @@ public class BookController {
     public ResponseEntity<SearchResponse> getAllBooks(@RequestHeader("Authorization") String token){
         token = token.replace("Bearer ", "");
         SearchResponse searchResponse = new SearchResponse();
-        if(adminService.getAdminByToken(token) == null){
+        if(buyerService.getBuyerByToken(token) == null && adminService.getAdminByToken(token) == null){
             searchResponse.setMessage("Not authorized user");
             return new ResponseEntity<>(searchResponse, HttpStatus.FORBIDDEN);
         }

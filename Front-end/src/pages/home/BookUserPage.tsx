@@ -49,35 +49,35 @@ const BookUserPage = () => {
         });  
     }, []);
     return (
-      <Paper style={{ padding: '16px', margin:5 }}>
-        <Typography variant="h4" gutterBottom>
-          {book.title} 
+      <Paper style={{ padding: '16px', margin: 5 }}>
+        <Typography variant="h4" gutterBottom style={{ fontSize: '30px' }}>
+          <strong>{book.title}</strong> 
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom style={{ fontSize: '24px' }}>
           {book.description}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>ISBN:</strong> {book.isbn}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>Price:</strong> ${book.price}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>Author:</strong> {book.author}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>Category:</strong> {book.category}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>Publish Date:</strong> {book.publishDate?.toLocaleDateString()}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>Publisher:</strong> {book.publisher}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>Pages Number:</strong> {book.pagesNumber}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" style={{ fontSize: '22px' }}>
           <strong>Amount:</strong> {book.amount}
         </Typography>
         {/* Add more details as needed */}

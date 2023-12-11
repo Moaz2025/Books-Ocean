@@ -40,7 +40,7 @@ const Home = () => {
       <CssBaseline />
       <CustomAppBar />
       <CssBaseline />
-      <Container style={{width:'100%', maxWidth:'100%'}}>
+      <Container>
         <Outlet></Outlet>
       </ Container >
     </ ThemeProvider >

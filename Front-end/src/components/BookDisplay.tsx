@@ -30,7 +30,7 @@ const BookDisplay:React.FC<BookDisplayProps> = ({book, onClick}) => {
                 {book.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {book.description? book.description.length < 50 ? book.description : book.description?.substring(0, 50) + '..' : ''}
+                {book.author}
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 {book.price.toFixed(2) + ' $'}

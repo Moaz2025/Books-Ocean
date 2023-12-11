@@ -82,9 +82,9 @@ const DefaultAdmin = () => {
 
   return (
     <div>
-      <Stack width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+      <Stack sx={{margin:1}} width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
         <IconButton
-            sx={{m:0.2, width:1}}
+            sx={{m:0.2}}
             edge="end"
             color="inherit"
             aria-label="profile"

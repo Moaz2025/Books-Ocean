@@ -39,8 +39,8 @@ const Home = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <CustomAppBar />
-      {/* <CssBaseline /> */}
-      <Container component="main">
+      <CssBaseline />
+      <Container style={{width:'100%', maxWidth:'100%'}}>
         <Outlet></Outlet>
       </ Container >
     </ ThemeProvider >

@@ -1,7 +1,7 @@
 // pages/BookUserPage.tsx
 
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Paper, Typography } from '@mui/material';
 import { Book } from '../../model/book';
 import { useParams } from 'react-router-dom';
 import { getBookById } from '../../services/books';
@@ -22,47 +22,69 @@ import { getBookById } from '../../services/books';
 // };
 
 const BookUserPage = () => {
-    const { id } = useParams();
-    const [book, setBookData] = useState<Book>({
-        title: '',
-        description: '',
-        id: 0,
-        isbn: '',
-        price: 0,
-        author: '',
-        category: '',
-        publishDate: undefined,
-        publisher: '',
-        pagesNumber: 0,
-        coverImageLink: '',
-        amount: 0,
-      });
-    
-      useEffect(()=>{ 
-        getBookById(parseInt(id!)).
-          then((res)=>{
-            console.log('Response ',res);
-            const date: string = res.publishDate?.toString()!;
-            console.log('Date AS string ', date.substring(0,10));
-            res.publishDate = new Date(date.substring(0,10))
-            setBookData(res);  
-          });  
-      }, [])
+  const { id } = useParams();
+  const [book, setBookData] = useState<Book>({
+      title: '',
+      description: '',
+      id: 0,
+      isbn: '',
+      price: 0,
+      author: '',
+      category: '',
+      publishDate: undefined,
+      publisher: '',
+      pagesNumber: 0,
+      coverImageLink: '',
+      amount: 0,
+    });
+  
+    useEffect(()=>{ 
+      getBookById(parseInt(id!)).
+        then((res)=>{
+          console.log('Response ',res);
+          const date: string = res.publishDate?.toString()!;
+          console.log('Date AS string ', date.substring(0,10));
+          res.publishDate = new Date(date.substring(0,10))
+          setBookData(res);  
+        });  
+    }, []);
     return (
-        <Card>
-        <CardMedia
-            component="img"
-            height="140"
-            image={book.coverImageLink}
-            alt={book.title}
-        />
-        <CardContent>
-            <Typography variant="h5">{book.title}</Typography>
-            <Typography variant="subtitle1">Author: {book.author}</Typography>
-            <Typography variant="body1">Description: {book.description}</Typography>
-            {/* Add more details as needed */}
-        </CardContent>
-        </Card>
+      <Paper style={{ padding: '16px', margin:5 }}>
+        <Typography variant="h4" gutterBottom>
+          {book.title} 
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          {book.description}
+        </Typography>
+        <Typography variant="body1">
+          <strong>ISBN:</strong> {book.isbn}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Price:</strong> ${book.price}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Author:</strong> {book.author}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Category:</strong> {book.category}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Publish Date:</strong> {book.publishDate?.toLocaleDateString()}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Publisher:</strong> {book.publisher}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Pages Number:</strong> {book.pagesNumber}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Amount:</strong> {book.amount}
+        </Typography>
+        {/* Add more details as needed */}
+        {book.coverImageLink && (
+          <img src={book.coverImageLink} alt={book.title} style={{ maxWidth: '100%', marginTop: '16px' }} />
+        )}
+      </Paper>
     );
 };
 

@@ -56,7 +56,7 @@ const HomeDefault = () => {
   
   return (
     <div>
-      <Stack width={"100%"} sx={{m:1}} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+      <Stack sx={{margin:1}} width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
         <TextField
           label="Title"
           value={titleFilter}

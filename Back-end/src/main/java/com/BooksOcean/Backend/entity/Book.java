@@ -13,7 +13,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookId;
+    private int id;
     private String title;
     private String description;
     private String isbn;
@@ -23,7 +23,7 @@ public class Book {
     private Date publishDate;
     private String publisher;
     private int pagesNumber;
-    private String coverImageUrl;
+    private String coverImageLink;
     private int amount;
 
 }

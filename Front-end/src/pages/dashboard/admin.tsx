@@ -57,9 +57,10 @@ const Admin = () => {
   
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <CustomAppBar />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <CssBaseline />
+      <Container style={{width:'100%', maxWidth:'100%'}}>
         <Outlet></Outlet>
       </ Container >
     </ ThemeProvider >

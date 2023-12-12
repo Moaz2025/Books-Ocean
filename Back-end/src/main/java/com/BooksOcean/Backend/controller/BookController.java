@@ -72,7 +72,6 @@ public class BookController {
     public ResponseEntity<SearchResponse> updateBook(@PathVariable int id, @RequestHeader("Authorization") String token, @RequestBody Book book){
         token = token.replace("Bearer ", "");
         SearchResponse searchResponse = new SearchResponse();
-        System.out.println("Try to Update " + id);
         if(adminService.getAdminByToken(token) == null){
             searchResponse.setMessage("Not authorized user");
             return new ResponseEntity<>(searchResponse, HttpStatus.FORBIDDEN);
@@ -84,8 +83,8 @@ public class BookController {
         }
         searchResponse.setMessage("book exists");
         List<Book> books = new ArrayList<>();
-        bookService.updateBook(book);
-        books.add(book);
+        bookService.updateBook(dbBook);
+        books.add(dbBook);
         searchResponse.setBooks(books);
         return new ResponseEntity<>(searchResponse, HttpStatus.ACCEPTED);
     }
@@ -93,7 +92,7 @@ public class BookController {
     public ResponseEntity<SearchResponse> getAllBooks(@RequestHeader("Authorization") String token){
         token = token.replace("Bearer ", "");
         SearchResponse searchResponse = new SearchResponse();
-        if(buyerService.getBuyerByToken(token) == null && adminService.getAdminByToken(token) == null){
+        if(adminService.getAdminByToken(token) == null){
             searchResponse.setMessage("Not authorized user");
             return new ResponseEntity<>(searchResponse, HttpStatus.FORBIDDEN);
         }
@@ -104,3 +103,4 @@ public class BookController {
         return new ResponseEntity<>(searchResponse, HttpStatus.ACCEPTED);
     }
 }
+       

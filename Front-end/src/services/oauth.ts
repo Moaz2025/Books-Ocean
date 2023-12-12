@@ -20,7 +20,7 @@ export const oauth = async (form: SignUpForm): Promise<LoginResponse> => {
             token: response.data.token!,
             message: response.data.message!
         };
-
+        
         const credits: UserCredentials = {
             email: authResponse.email!,
             userType: authResponse.userType!,
@@ -29,8 +29,7 @@ export const oauth = async (form: SignUpForm): Promise<LoginResponse> => {
         
         localStorage.setItem(userCredentialsNameInStorage, JSON.stringify(credits)); 
         return authResponse;
-
-    } catch(error: any) {
+    }catch(error:any){
         console.error('Login Failure: ', error);
         const authResponse: LoginResponse = {
             status: error.response.status,

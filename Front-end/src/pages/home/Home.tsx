@@ -37,12 +37,13 @@ const Home = () => {
   }
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <CustomAppBar />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <CssBaseline />
+      <Container>
         <Outlet></Outlet>
-      </Container>
-    </ThemeProvider>
+      </ Container >
+    </ ThemeProvider >
   )
 }
 

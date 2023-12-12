@@ -21,6 +21,10 @@ public class BuyerService {
         return buyerRepository.findById(email).orElse(null);
     }
 
+    public Buyer getBuyerByToken(String token){
+        return buyerRepository.findByToken(token);
+    }
+
     public Buyer updateBuyer(Buyer buyer1) {
         return buyerRepository.save(buyer1);
     }

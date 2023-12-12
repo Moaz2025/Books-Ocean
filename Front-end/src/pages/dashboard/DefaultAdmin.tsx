@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Routes, Link, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Button, Container, CssBaseline, ThemeProvider } from '@mui/material';
 import { isAuthenticated } from '../../services/auth'
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +17,7 @@ import { Book } from '../../model/book';
 import { useTheme } from '../ThemeTogglerProvider';
 import BookDisplay from '../../components/BookDisplay';
 import LoadingCircle from '../../components/LoadingCircle';
-const Admin = () => {
+const DefaultAdmin = () => {
   const {theme, toggleTheme} = useTheme();
   const [books, setBooks] = useState<Book[]>([]);
   const navigate = useNavigate();
@@ -54,16 +54,28 @@ const Admin = () => {
   if (loading) {
     <LoadingCircle></LoadingCircle>
   }
-  
+
   return (
-    <ThemeProvider theme={theme}>
-      <CustomAppBar />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Outlet></Outlet>
-      </ Container >
-    </ ThemeProvider >
+    <p>Admin Default</p>
+    // <ThemeProvider theme={theme}>
+    //   <CustomAppBar 
+    //       onLogout={handleLogout}
+    //       onProfileOpen={handleProfileOpen}
+    //       appName="Books Ocean"
+    //     />
+    //   <Container component="main" maxWidth="xs">
+    //     <CssBaseline />
+
+    //     {booksLoading ? <LoadingCircle /> :
+    //       <div>
+    //         <BookDisplay book={books[0]} onClick={()=>{console.log("Click Book")}}/>
+    //         <BookDisplay book={books[1]} onClick={()=>{console.log("Click Book")}}/>
+    //       </div>
+    //     }
+    //   </ Container >
+    // </ ThemeProvider >
+      
   );
 }
 
-export default Admin
+export default DefaultAdmin

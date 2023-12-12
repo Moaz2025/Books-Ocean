@@ -8,7 +8,6 @@ import { notify } from '../pages/signUp/SignUp';
 import { LoginForm, LoginResponse, SignUpForm } from '../model/auth';
 import { oauth } from '../services/oauth';
 import { useNavigate } from 'react-router-dom';
-import { JwtPayload } from 'jwt-decode';
 
 const OAuth = () => {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ const OAuth = () => {
       <GoogleLogin
         size='large'
         text='continue_with'
-        onSuccess={(credentialResponse :any) => {
+        onSuccess={credentialResponse => {
           // var decode = jwtDecode(credentialResponse.credential!)
           const decode = jwtDecode(credentialResponse.credential!) as { email: string, family_name: string,given_name: string  };
           const form: SignUpForm = {

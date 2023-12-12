@@ -17,3 +17,8 @@ export interface Review{
     comment?: string
     rate?: number
 }
+
+export interface BooksResponse{
+    message?: string
+    books?: Book[]
+}

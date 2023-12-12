@@ -1,11 +1,13 @@
-import { Button } from '@mui/material';
+import { Button, Container, CssBaseline, ThemeProvider } from '@mui/material';
 import { isAuthenticated } from '../../services/auth'
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {useEffect, useState} from 'react'
 import { logout } from '../../services/auth';
 import CircularProgress from '@mui/material/CircularProgress';
 import { router } from '../../services/router';
 import { useTheme } from '../ThemeTogglerProvider';
+import CustomAppBar from '../../components/AppBar';
+
 
 const Home = () => {
   const {theme, toggleTheme} = useTheme();
@@ -19,7 +21,7 @@ const Home = () => {
   useEffect(()=>{
     const checkAuthentication = async () => {
       const route = router();
-      if (route != '/home') {
+      if (!route.includes('home')) {
         navigate(route);
       }
       setLoading(false);
@@ -34,9 +36,14 @@ const Home = () => {
     );
   }
   return (
-    <Button onClick={handleLogout}>
-      Logout
-    </Button>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <CustomAppBar />
+      <CssBaseline />
+      <Container>
+        <Outlet></Outlet>
+      </ Container >
+    </ ThemeProvider >
   )
 }
 

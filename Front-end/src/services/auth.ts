@@ -1,19 +1,10 @@
 import { AuthResponse, LoginForm, LoginResponse, SignUpForm } from "../model/auth";
 import axios, {AxiosResponse} from "axios";
 import { UserCredentials } from "../model/user";
-import { json } from "stream/consumers";
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 const userCredentialsNameInStorage = 'credentials'
 
 export const login = async (form: LoginForm): Promise<LoginResponse> => {
-    // Just for testing !!
-    // var userCredits:UserCredentials;
-    // userCredits = {
-    //     userType: form.userType,
-    //     id: 12,
-    //     token: 'kfhen1547'
-    // }
-    // localStorage.setItem(userCredentialsNameInStorage, JSON.stringify(userCredits));
     try{
         const response: AxiosResponse<LoginResponse> = await axios.post(`${API_URL}/auth/login`,
             JSON.stringify(form),

@@ -28,7 +28,7 @@ const OAuth = () => {
             lastName: decode.family_name
           };
           console.log(form)
-          navigate('/home')
+          // navigate('/home')
           oauth(form) 
           .then((responce: LoginResponse) => {
             if(responce.status! < 300){

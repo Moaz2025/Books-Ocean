@@ -83,8 +83,8 @@ public class BookController {
         }
         searchResponse.setMessage("book exists");
         List<Book> books = new ArrayList<>();
-        bookService.updateBook(dbBook);
-        books.add(dbBook);
+        bookService.updateBook(book);
+        books.add(book);
         searchResponse.setBooks(books);
         return new ResponseEntity<>(searchResponse, HttpStatus.ACCEPTED);
     }

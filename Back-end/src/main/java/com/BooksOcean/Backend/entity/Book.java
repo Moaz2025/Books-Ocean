@@ -15,6 +15,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
+    @Column(length = 150)
     private String description;
     private String isbn;
     private double price;
@@ -25,5 +26,10 @@ public class Book {
     private int pagesNumber;
     private String coverImageLink;
     private int amount;
+    @Column(columnDefinition = "INT DEFAULT 0")
+    int rate;
+    @Column(columnDefinition = "INT DEFAULT 0")
+    int numOfRates;
+
 
 }

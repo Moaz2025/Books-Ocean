@@ -26,8 +26,8 @@ public class Book {
     private int pagesNumber;
     private String coverImageLink;
     private int amount;
-    @Column(columnDefinition = "INT DEFAULT 0")
-    int rate;
+    @Column(columnDefinition = "Float DEFAULT 0.0")
+    float rate;
     @Column(columnDefinition = "INT DEFAULT 0")
     int numOfRates;
 

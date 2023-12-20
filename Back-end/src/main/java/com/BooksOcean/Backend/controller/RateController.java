@@ -27,7 +27,7 @@ public class RateController {
         }
         Buyer buyer = buyerService.getBuyerByToken(token);
         Book book = bookService.getBookById(rateForm.getBook_id());
-        int rating = book.getRate();
+        float rating = book.getRate();
         int numOfRates = book.getNumOfRates();
         Rate dbRate = rateService.getRate(book.getId(), buyer.getEmail());
         if(dbRate == null){

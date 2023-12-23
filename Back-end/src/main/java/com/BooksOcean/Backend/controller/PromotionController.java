@@ -43,17 +43,23 @@ public class PromotionController {
             return new ResponseEntity<>("Not authorized admin", HttpStatus.FORBIDDEN);
         }
         if(buyerService.getBuyerByEmail(email) == null){
-            return new ResponseEntity<>("No buyer with this email", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("No buyer with this email", HttpStatus.NOT_FOUND);
         }
         Buyer buyer = buyerService.getBuyerByEmail(email);
+        int atIndex = email.indexOf('@');
+        String prefix = email.substring(0, atIndex);
+        String suffix = email.substring(atIndex);
+        String modifiedEmail = prefix + "_admin" + suffix;
+        if(adminService.getAdminByEmail(modifiedEmail) != null){
+            return new ResponseEntity<>("Already promoted", HttpStatus.CONFLICT);
+        }
         Admin admin = new Admin();
-        admin.setEmail(buyer.getEmail());
+        admin.setEmail(modifiedEmail);
         admin.setFirstName(buyer.getFirstName());
         admin.setLastName(buyer.getLastName());
         admin.setSalt(buyer.getSalt());
         admin.setPassword(buyer.getPassword());
         adminService.createAdmin(admin);
-        buyerService.deleteBuyer(buyer);
         return new ResponseEntity<>("Buyer promoted successfully", HttpStatus.ACCEPTED);
     }
 }

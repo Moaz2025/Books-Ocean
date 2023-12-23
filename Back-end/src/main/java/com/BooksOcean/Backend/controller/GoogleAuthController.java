@@ -5,6 +5,7 @@ import com.BooksOcean.Backend.entity.LoginForm;
 import com.BooksOcean.Backend.entity.LoginResponse;
 import com.BooksOcean.Backend.service.BuyerService;
 import com.BooksOcean.Backend.service.Token;
+import com.BooksOcean.Backend.service.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:3000")
 public class GoogleAuthController {
+    Validation validation = new Validation();
     String defaultPassword = "google";
     @Autowired
     private BuyerService buyerService;
@@ -22,7 +24,8 @@ public class GoogleAuthController {
         System.out.println(buyer.getEmail());
         Buyer buyer1 = buyerService.getBuyerByEmail(buyer.getEmail());
         if (buyer1 == null){
-            buyer.setPassword(defaultPassword);
+            buyer.setSalt(validation.getSalt());
+            buyer.setPassword(validation.hashPassword(defaultPassword, buyer.getSalt()));
             buyerService.createBuyer(buyer);
             buyer1 = buyerService.getBuyerByEmail(buyer.getEmail());
         }
@@ -38,6 +41,8 @@ public class GoogleAuthController {
         String generatedToken = token.generateToken();
         buyer.setToken(generatedToken);
         loginResponse.setToken(generatedToken);
+        buyer.setSalt(validation.getSalt());
+        buyer.setPassword(validation.hashPassword(defaultPassword, buyer.getSalt()));
         buyerService.updateBuyer(buyer);
         return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
     }

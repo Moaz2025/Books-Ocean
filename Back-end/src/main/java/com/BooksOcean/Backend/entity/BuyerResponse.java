@@ -7,5 +7,5 @@ import java.util.List;
 @Data
 public class BuyerResponse {
     private String message;
-    private List<Buyer> buyers;
+    private List<BuyerAttributes> buyersList;
 }

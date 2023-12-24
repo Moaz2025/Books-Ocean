@@ -2,6 +2,7 @@ package com.BooksOcean.Backend.controller;
 
 import com.BooksOcean.Backend.entity.Admin;
 import com.BooksOcean.Backend.entity.Buyer;
+import com.BooksOcean.Backend.entity.BuyerAttributes;
 import com.BooksOcean.Backend.entity.BuyerResponse;
 import com.BooksOcean.Backend.service.AdminService;
 import com.BooksOcean.Backend.service.BuyerService;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,9 +33,20 @@ public class PromotionController {
             return new ResponseEntity<>(buyerResponse, HttpStatus.FORBIDDEN);
         }
         buyerResponse.setMessage("List of buyers");
-        List<Buyer> buyers;
-        buyers = buyerService.getAllBuyers();
-        buyerResponse.setBuyers(buyers);
+        List<Buyer> dataBuyers;
+        dataBuyers = buyerService.getAllBuyers();
+        List<BuyerAttributes> buyerAttributes = new ArrayList<>();
+        for (Buyer buyer : dataBuyers) {
+            String email = buyer.getEmail();
+            String firstName = buyer.getFirstName();
+            String lastName = buyer.getLastName();
+            BuyerAttributes attributes = new BuyerAttributes();
+            attributes.setEmail(email);
+            attributes.setFirstName(firstName);
+            attributes.setLastName(lastName);
+            buyerAttributes.add(attributes);
+        }
+        buyerResponse.setBuyersList(buyerAttributes);
         return new ResponseEntity<>(buyerResponse, HttpStatus.ACCEPTED);
     }
     @PostMapping("/promoteAdmin")

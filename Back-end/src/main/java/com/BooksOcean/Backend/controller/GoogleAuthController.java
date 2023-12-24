@@ -22,28 +22,26 @@ public class GoogleAuthController {
     @PostMapping("/google")
     public ResponseEntity<LoginResponse> signUp(@RequestBody Buyer buyer){
         System.out.println(buyer.getEmail());
-        Buyer buyer1 = buyerService.getBuyerByEmail(buyer.getEmail());
-        if (buyer1 == null){
+        Buyer dataBuyer = buyerService.getBuyerByEmail(buyer.getEmail());
+        if (dataBuyer == null){
             buyer.setSalt(validation.getSalt());
             buyer.setPassword(validation.hashPassword(defaultPassword, buyer.getSalt()));
             buyerService.createBuyer(buyer);
-            buyer1 = buyerService.getBuyerByEmail(buyer.getEmail());
+            dataBuyer = buyerService.getBuyerByEmail(buyer.getEmail());
         }
         LoginResponse loginResponse = new LoginResponse();
         LoginForm loginForm = new LoginForm();
-        loginForm.setEmail(buyer1.getEmail());
-        loginForm.setPassword(buyer1.getPassword());
+        loginForm.setEmail(dataBuyer.getEmail());
+        loginForm.setPassword(dataBuyer.getPassword());
         loginForm.setUserType("buyer");
         loginResponse.setMessage("Login successfully");
         loginResponse.setUserType("buyer");
         loginResponse.setEmail(loginForm.getEmail());
         Token token = new Token();
         String generatedToken = token.generateToken();
-        buyer.setToken(generatedToken);
+        dataBuyer.setToken(generatedToken);
         loginResponse.setToken(generatedToken);
-        buyer.setSalt(validation.getSalt());
-        buyer.setPassword(validation.hashPassword(defaultPassword, buyer.getSalt()));
-        buyerService.updateBuyer(buyer);
+        buyerService.updateBuyer(dataBuyer);
         return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
     }
 }

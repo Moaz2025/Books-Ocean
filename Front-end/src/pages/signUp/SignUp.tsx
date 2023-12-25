@@ -23,6 +23,11 @@ import OAuth from '../../components/OAuth';
 import { useTheme } from '../ThemeTogglerProvider';
 // const defaultTheme = createTheme();
 export const notify = (notification:string, type?: string) => {
+  if(!type){
+    console.log(notification);
+    toast.info(notification)
+    return;
+  }
     switch (type) { 
         case 'success':
           toast.success(notification)
@@ -31,6 +36,8 @@ export const notify = (notification:string, type?: string) => {
           toast.error(notification)
           break;
         default:
+          console.log(notification);
+          
           toast.info(notification)
           break;
     } 

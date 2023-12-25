@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Button, Card, Container, CssBaseline, Grid, IconButton, Stack, TextField, ThemeProvider } from '@mui/material';
 import { isAuthenticated } from '../../services/auth'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 import { useNavigate } from 'react-router-dom';
 import {useEffect, useState} from 'react'
 import { logout } from '../../services/auth';
@@ -39,6 +40,10 @@ const DefaultAdmin = () => {
 
   const handleClickAddBook = () => {
     navigate('add')
+  }
+
+  const handleClickPromotion = () => {
+    navigate('promotion')
   }
 
   const onClickOnBook = (id:number) => {
@@ -83,6 +88,17 @@ const DefaultAdmin = () => {
   return (
     <div>
       <Stack sx={{margin:1}} width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+      <IconButton
+            sx={{m:0.2}}
+            edge="end"
+            color="inherit"
+            aria-label="profile"
+            size='medium'
+            onClick={handleClickPromotion}
+          >
+            {'User Promotion'} 
+            <UpgradeIcon sx={{marginX:1}} />
+        </IconButton>
         <IconButton
             sx={{m:0.2}}
             edge="end"

@@ -1,4 +1,5 @@
-import { Stack, TextField } from '@mui/material'
+import { IconButton, Stack, TextField } from '@mui/material'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import React, { useEffect, useState } from 'react'
 import { Book } from '../../model/book';
 import { useNavigate } from 'react-router-dom';
@@ -50,6 +51,9 @@ const HomeDefault = () => {
     setFilteredBooks(filtered);
   }, [titleFilter, authorFilter]);
 
+  const handleClickCart = () => {
+    navigate('cart')
+  }
   if (loading) {
     return (<LoadingCircle></LoadingCircle>)
   }
@@ -68,6 +72,18 @@ const HomeDefault = () => {
           value={authorFilter}
           onChange={(e) => setAuthorFilter(e.target.value)}
         />
+
+        <IconButton
+            sx={{m:0.2}}
+            edge="end"
+            color="inherit"
+            aria-label="profile"
+            size='medium'
+            onClick={handleClickCart}
+          >
+            {'Cart'} 
+            <ShoppingCartIcon sx={{marginX:1}} />
+        </IconButton> 
       </Stack>
       <Stack width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
         {filteredBooks.map((book) => 

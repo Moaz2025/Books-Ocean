@@ -1,4 +1,4 @@
-import { Cart, CartItem, ICart } from "../model/cart"; // Assuming you have the CartItem interface in a separate types file
+import { Cart, CartItem, ICart, Order } from "../model/cart"; // Assuming you have the CartItem interface in a separate types file
 import { getBookById } from "./books";
 import { UserCredentials } from "../model/user";
 import axios, { AxiosResponse } from "axios";
@@ -148,7 +148,23 @@ export const convertMapToListOfItems = (map: Map<number, number>): CartItem[] =>
   return result
 }
 
-
+export const checkout = async(order: Order) : Promise<string> => {
+  const token = getUserCredentials()?.token; // Replace with your actual access token
+  try {
+    const response:AxiosResponse<string> = await axios.post(`${API_URL}/order/commit`, order, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    console.log(response.data);
+    saveCartAsArrayToLocalStorage({items:[]});
+    return (response.data);
+  } catch (error: any) {
+    console.log(error); 
+    return error.response.data + 'error'
+  }
+}
 export const sendCartToServer = async(): Promise<void> => {
   const cart = getCart();
   const token = getUserCredentials()?.token; // Replace with your actual access token

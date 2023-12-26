@@ -35,3 +35,9 @@ export class Cart {
       }));
     }
 }
+
+export interface Order {
+  items : CartItem[]
+  shippingAddress: string
+  phoneNumber: string
+}

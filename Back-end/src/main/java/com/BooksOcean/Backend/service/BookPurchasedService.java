@@ -3,6 +3,7 @@ package com.BooksOcean.Backend.service;
 import com.BooksOcean.Backend.entity.BookPurchased;
 
 import com.BooksOcean.Backend.entity.Buyer;
+import com.BooksOcean.Backend.entity.Order;
 import com.BooksOcean.Backend.repository.BookPurchasedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,10 @@ public class BookPurchasedService {
 
     public List<BookPurchased> getBooksPurchasedByBuyer(Buyer buyer){
         return bookPurchasedRepository.findByBuyer(buyer);
+    }
+
+    public List<BookPurchased> getBooksPurchasedByOrder(Order order){
+        return bookPurchasedRepository.findByOrder(order);
     }
 
     public BookPurchased updateBooksPurchased(BookPurchased booksPurchased) {

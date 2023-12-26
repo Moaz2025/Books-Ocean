@@ -26,11 +26,7 @@ public class OrderController {
     @Autowired
     private BookPurchasedService bookPurchasedService;
     @PostMapping("/commit")
-    public ResponseEntity<String> commitOrder(@RequestHeader("Authorization") String token,
-                                              @RequestBody List<CartItem> cartItems/*,
-                                              @RequestBody String shippingAddress,
-                                              @RequestBody String phoneNumber*/){
-
+    public ResponseEntity<String> commitOrder(@RequestHeader("Authorization") String token, @RequestBody OrderDetails orderDetails){
         token = token.replace("Bearer ", "");
         if(buyerService.getBuyerByToken(token) == null){
             return new ResponseEntity<>("Not authorized user", HttpStatus.FORBIDDEN);
@@ -39,6 +35,7 @@ public class OrderController {
         StringBuilder message = new StringBuilder();
         message.append("Books: ");
         int conflictCount = 0;
+        List<CartItem> cartItems = orderDetails.getItems();
         for (CartItem cartItem : cartItems) {
             Book book = bookService.getBookById(cartItem.getBookId());
             if(book.getAmount() < cartItem.getAmount()) {
@@ -56,8 +53,8 @@ public class OrderController {
         order.setBuyer(buyer);
         Date date = new Date();
         order.setDate(date);
-//        order.setShippingAddress(shippingAddress);
-//        order.setPhoneNumber(phoneNumber);
+        order.setShippingAddress(orderDetails.getShippingAddress());
+        order.setPhoneNumber(orderDetails.getPhoneNumber());
         orderService.createOrder(order);
         for (CartItem cartItem : cartItems){
             BookPurchased bookPurchased = new BookPurchased();

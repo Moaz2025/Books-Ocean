@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -68,5 +69,29 @@ public class OrderController {
             bookPurchasedService.createBookPurchased(bookPurchased);
         }
         return new ResponseEntity<>("Order made successfully", HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<List<CartItem>>> getOrders(@RequestHeader("Authorization") String token){
+        token = token.replace("Bearer ", "");
+        if(buyerService.getBuyerByToken(token) == null){
+            return new ResponseEntity("Not authorized user", HttpStatus.FORBIDDEN);
+        }
+        Buyer buyer = buyerService.getBuyerByToken(token);
+        List<Order> orders = orderService.getOrderByBuyer(buyer);
+        List<CartItem> cartItems= new ArrayList<>();
+        List<List<CartItem>> listOfCarts = new ArrayList<>();
+        for (Order order : orders) {
+            List<BookPurchased> booksPurchased = bookPurchasedService.getBooksPurchasedByOrder(order);
+            cartItems= new ArrayList<>();
+            for (BookPurchased bookPurchased : booksPurchased) {
+                CartItem cartItem = new CartItem();
+                cartItem.setBookId(bookPurchased.getBook().getId());
+                cartItem.setAmount(bookPurchased.getAmount());
+                cartItems.add(cartItem);
+            }
+            listOfCarts.add(cartItems);
+        }
+        return new ResponseEntity<>(listOfCarts, HttpStatus.ACCEPTED);
     }
 }

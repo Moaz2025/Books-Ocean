@@ -19,7 +19,7 @@ public class BookPurchasedService {
         return bookPurchasedRepository.save(bookPurchased);
     }
 
-    public List<BookPurchased> getBooksByBuyerEmail(Buyer buyer){
+    public List<BookPurchased> getBooksPurchasedByBuyer(Buyer buyer){
         return bookPurchasedRepository.findByBuyer(buyer);
     }
 

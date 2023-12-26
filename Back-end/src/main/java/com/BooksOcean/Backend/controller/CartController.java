@@ -44,7 +44,7 @@ public class CartController {
         }
         return new ResponseEntity<>("Book added to cart successfully", HttpStatus.ACCEPTED);
     }
-    @PostMapping("/get")
+    @GetMapping("/get")
     public ResponseEntity<List<CartItem>> getCart(@RequestHeader("Authorization") String token){
         token = token.replace("Bearer ", "");
         if(buyerService.getBuyerByToken(token) == null){

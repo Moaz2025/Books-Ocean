@@ -6,6 +6,8 @@ import com.BooksOcean.Backend.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderService {
 
@@ -16,7 +18,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getOrderByBuyerEmail(Buyer buyer){
+    public List<Order> getOrderByBuyer(Buyer buyer){
         return orderRepository.findByBuyer(buyer);
     }
 

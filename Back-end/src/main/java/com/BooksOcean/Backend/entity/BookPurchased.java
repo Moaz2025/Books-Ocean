@@ -21,4 +21,5 @@ public class BookPurchased {
     @ManyToOne
     @JoinColumn(name = "orderId")
     private Order order;
+    private int amount;
 }

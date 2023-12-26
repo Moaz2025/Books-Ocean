@@ -51,6 +51,7 @@ public class PromotionController {
     }
     @PostMapping("/promoteAdmin")
     public ResponseEntity<String> promoteAdmin(@RequestHeader("Authorization") String token, @RequestBody String email){
+        email = email.replaceAll("\"", "");
         token = token.replace("Bearer ", "");
         if(adminService.getAdminByToken(token) == null){
             return new ResponseEntity<>("Not authorized admin", HttpStatus.FORBIDDEN);

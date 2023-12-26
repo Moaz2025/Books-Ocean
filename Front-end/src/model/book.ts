@@ -1,4 +1,5 @@
 export interface Book{
+    averageRating: number | undefined
     title:string
     description?:string
     id:number

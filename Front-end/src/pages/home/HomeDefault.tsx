@@ -1,11 +1,14 @@
-import { Stack, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+// ... existing imports ...
+
+import React, { useEffect, useState } from 'react';
 import { Book } from '../../model/book';
 import { useNavigate } from 'react-router-dom';
 import { router } from '../../services/router';
 import { getAllBooks } from '../../services/books';
 import LoadingCircle from '../../components/LoadingCircle';
 import BookDisplay from '../../components/BookDisplay';
+import { Stack, TextField, Typography } from '@mui/material';
+import Rating from 'react-rating';
 
 const HomeDefault = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -15,31 +18,24 @@ const HomeDefault = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [booksLoading, setBooksLoading] = useState(true);
-  const onClickOnBook = (id:number) => {
-    navigate(`${id}`)
-  }
 
-  useEffect(()=>{
+  useEffect(() => {
     const checkAuthentication = async () => {
       const route = router();
-      if (route != '/home') {
+      if (route !== '/home') {
         navigate(route);
       }
       setLoading(false);
     };
-    checkAuthentication()
-    getAllBooks()
-      .then(
-        (value)=>{
-          setBooksLoading(false)
-          setBooks(value);
-          setFilteredBooks(value);
-        }
-      )
+    checkAuthentication();
+    getAllBooks().then((value) => {
+      setBooksLoading(false);
+      setBooks(value);
+      setFilteredBooks(value);
+    });
   }, []);
-  
+
   useEffect(() => {
-    // Filter the books based on the current search criteria
     const filtered = books.filter((book) => {
       const titleMatches = book.title.toLowerCase().includes(titleFilter.toLowerCase());
       const authorMatches = book.author.toLowerCase().includes(authorFilter.toLowerCase());
@@ -51,32 +47,35 @@ const HomeDefault = () => {
   }, [titleFilter, authorFilter]);
 
   if (loading) {
-    return (<LoadingCircle></LoadingCircle>)
+    return <LoadingCircle />;
   }
-  
+
+  function onClickOnBook(arg0: number): any {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <div>
-      <Stack sx={{margin:1}} width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
-        <TextField
-          label="Title"
-          value={titleFilter}
-          onChange={(e) => setTitleFilter(e.target.value)}
-        />
+      <Stack sx={{ margin: 1 }} width={'100%'} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+        <TextField label="Title" value={titleFilter} onChange={(e) => setTitleFilter(e.target.value)} />
 
-        <TextField
-          label="Author"
-          value={authorFilter}
-          onChange={(e) => setAuthorFilter(e.target.value)}
-        />
+        <TextField label="Author" value={authorFilter} onChange={(e) => setAuthorFilter(e.target.value)} />
       </Stack>
-      <Stack width={"100%"} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
-        {filteredBooks.map((book) => 
-          <BookDisplay book={book} onClick={()=>onClickOnBook(book.id? book.id : 1)}/>
-        )}
+      <Stack width={'100%'} spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+        {filteredBooks.map((book) => (
+          <div key={book.id}>
+            <BookDisplay book={book} onClick={() => onClickOnBook(book.id ? book.id : 1)} />
+            <Rating
+              initialRating={book.averageRating}
+              readonly
+              emptySymbol="far fa-star"
+              fullSymbol="fas fa-star"
+            />
+          </div>
+        ))}
       </Stack>
     </div>
-    
-  )
-}
+  );
+};
 
-export default HomeDefault
+export default HomeDefault;

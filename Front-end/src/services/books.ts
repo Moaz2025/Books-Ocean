@@ -21,6 +21,25 @@ export const addBook = async (book: Book): Promise<string> => {
   }
 }
 
+export const addBookToCart = async (bookId: number): Promise<string> => {
+  try {
+    const token = getUserCredentials()?.token; // Replace with your actual access token
+    const response: AxiosResponse = await axios.post(`${API_URL}/buyers/addToCart`, bookId, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // Handle the response data here
+    console.log(response.data);
+    return (response.data);
+  } catch (error) {
+    // Handle errors here
+    console.error('Error Adding Book to cart:', error);
+    return 'error Failed to add to cart'
+  }
+}
+
 export const getAllBooks = async (): Promise<Book[]> => {
     try {
         const token = getUserCredentials()?.token; // Replace with your actual access token

@@ -44,6 +44,7 @@ export const login = async (form: LoginForm): Promise<LoginResponse> => {
 
 export const logout = async (): Promise<void> => {
     const credits = JSON.parse(localStorage.getItem(userCredentialsNameInStorage)!);
+    
     try{
         console.log("credits = logout ,", credits);
         

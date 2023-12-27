@@ -1,7 +1,6 @@
 package com.BooksOcean.Backend.service;
 
 import com.BooksOcean.Backend.entity.Admin;
-import com.BooksOcean.Backend.entity.Buyer;
 import com.BooksOcean.Backend.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,10 @@ public class AdminService {
 
     public List<Admin> getAllAdmins() {
         return adminRepository.findAll();
+    }
+
+    public void deleteAdmin(Admin admin) {
+        adminRepository.delete(admin);
     }
 
 }

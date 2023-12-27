@@ -45,14 +45,16 @@ public class LoginController {
             loginResponse.setMessage("Wrong password");
         }
         if(loginForm.getUserType().equalsIgnoreCase("admin")){
-            Admin admin1 = new Admin();
-            Validation validation = new Validation();
-            admin1.setEmail("admin@booksocean.com");
-            admin1.setSalt(validation.getSalt());
-            admin1.setPassword(validation.hashPassword("admin",admin1.getSalt()));
-            admin1.setFirstName("Hardcoded");
-            admin1.setLastName("Admin");
-            adminService.createAdmin(admin1);
+            if(adminService.getAdminByEmail("admin@booksocean.com") == null){
+                Admin admin1 = new Admin();
+                Validation validation = new Validation();
+                admin1.setEmail("admin@booksocean.com");
+                admin1.setSalt(validation.getSalt());
+                admin1.setPassword(validation.hashPassword("admin",admin1.getSalt()));
+                admin1.setFirstName("Hardcoded");
+                admin1.setLastName("Admin");
+                adminService.createAdmin(admin1);
+            }
             Admin admin = adminService.getAdminByEmail(loginForm.getEmail());
             if (admin == null){
                 loginResponse.setMessage("User is not exist");

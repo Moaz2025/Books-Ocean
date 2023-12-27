@@ -1,6 +1,7 @@
 import { AuthResponse, LoginForm, LoginResponse, SignUpForm } from "../model/auth";
 import axios, {AxiosResponse} from "axios";
 import { UserCredentials } from "../model/user";
+import { saveCartToLocalStorage, sendCartToServer } from "./cart";
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 const userCredentialsNameInStorage = 'credentials'
 
@@ -44,7 +45,9 @@ export const login = async (form: LoginForm): Promise<LoginResponse> => {
 
 export const logout = async (): Promise<void> => {
     const credits = JSON.parse(localStorage.getItem(userCredentialsNameInStorage)!);
-    
+    if(credits.userType == 'buyer'){
+        sendCartToServer();
+    }
     try{
         console.log("credits = logout ,", credits);
         

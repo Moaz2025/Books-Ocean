@@ -7,6 +7,8 @@ import { router } from '../../services/router';
 import { getAllBooks } from '../../services/books';
 import LoadingCircle from '../../components/LoadingCircle';
 import BookDisplay from '../../components/BookDisplay';
+import { ICart } from '../../model/cart'
+import { getCartFromServer, saveCartAsArrayToLocalStorage } from '../../services/cart';
 
 const HomeDefault = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -37,6 +39,7 @@ const HomeDefault = () => {
           setFilteredBooks(value);
         }
       )
+      
   }, []);
   
   useEffect(() => {

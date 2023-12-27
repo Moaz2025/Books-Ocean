@@ -26,6 +26,7 @@ import { UserCredentials } from '../../model/user';
 import { router } from '../../services/router';
 import OAuth from '../../components/OAuth';
 import { useTheme } from '../ThemeTogglerProvider';
+import { getCartFromServer, saveCartAsArrayToLocalStorage } from '../../services/cart';
 // const defaultTheme = createTheme();
 const Login: React.FC = () => {
   const {theme, toggleTheme} = useTheme();
@@ -56,8 +57,13 @@ const Login: React.FC = () => {
     };
     login(form)
       .then((responce: LoginResponse) => {
-        
         if(responce.status! < 300){
+          if(userType == 'buyer'){
+            getCartFromServer()
+            .then((value) => {
+              saveCartAsArrayToLocalStorage(value);
+            })
+          }
           navigate('/home');
         }else{          
           notify(responce.message? responce.message : 'Login failed', 'error');
@@ -67,6 +73,7 @@ const Login: React.FC = () => {
         console.log(error);
         notify('Login failure', 'error');
       })
+    
   };
   if (loading) {
     return (

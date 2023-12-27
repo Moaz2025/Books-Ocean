@@ -2,7 +2,11 @@ export interface CartItem {
     bookId: number;
     amount: number;
 }
-  
+
+export interface ICart {
+  items: CartItem[]
+}
+
 export class Cart {
     private items: Map<number, number> = new Map();
   
@@ -30,4 +34,10 @@ export class Cart {
         amount,
       }));
     }
+}
+
+export interface Order {
+  items : CartItem[]
+  shippingAddress: string
+  phoneNumber: string
 }

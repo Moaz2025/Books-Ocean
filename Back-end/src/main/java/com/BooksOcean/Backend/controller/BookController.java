@@ -49,7 +49,7 @@ public class BookController {
             searchResponse.setMessage("No book with this id");
             return new ResponseEntity<>(searchResponse, HttpStatus.NOT_FOUND);
         }
-        searchResponse.setMessage("book exists");
+        searchResponse.setMessage("Book exists");
         List<Book> books = new ArrayList<>();
         books.add(dataBook);
         searchResponse.setBooks(books);
@@ -81,7 +81,7 @@ public class BookController {
             searchResponse.setMessage("No book with this id");
             return new ResponseEntity<>(searchResponse, HttpStatus.NOT_FOUND);
         }
-        searchResponse.setMessage("book exists");
+        searchResponse.setMessage("Book updated successfully");
         List<Book> books = new ArrayList<>();
         bookService.updateBook(book);
         books.add(book);
@@ -96,7 +96,7 @@ public class BookController {
             searchResponse.setMessage("Not authorized user");
             return new ResponseEntity<>(searchResponse, HttpStatus.FORBIDDEN);
         }
-        searchResponse.setMessage("book exists");
+        searchResponse.setMessage("Book exists");
         List<Book> books = new ArrayList<>();
         books = bookService.getAllBooks();
         searchResponse.setBooks(books);

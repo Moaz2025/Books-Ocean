@@ -1,30 +1,23 @@
 package com.BooksOcean.Backend.controller;
 
 import com.BooksOcean.Backend.entity.*;
-import com.BooksOcean.Backend.service.AdminService;
 import com.BooksOcean.Backend.service.BookService;
-import com.BooksOcean.Backend.service.BuyerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class BookControllerTest {
-    Admin admin = new Admin();
+
     Book book = new Book();
     LoginForm loginForm = new LoginForm();
     LoginResponse loginResponse = new LoginResponse();
     @Autowired
     BookController bookController = new BookController();
     @Autowired
-    AuthController authController = new AuthController();
-    @Autowired
     LoginController loginController = new LoginController();
-    @Autowired
-    SearchController searchController = new SearchController();
-    @Autowired
-    AdminService adminService = new AdminService();
     @Autowired
     BookService bookService = new BookService();
 
@@ -80,7 +73,7 @@ class BookControllerTest {
         String token = loginResponse.getToken();
         book.setTitle("testBook");
         bookService.createBook(book);
-        assertTrue("book exists".equalsIgnoreCase(bookController.getBookById(book.getId(),token).getBody().getMessage()));
+        assertTrue("Book exists".equalsIgnoreCase(bookController.getBookById(book.getId(),token).getBody().getMessage()));
         bookService.deleteBook(book);
     }
     @Test
@@ -136,7 +129,7 @@ class BookControllerTest {
         book.setTitle("testBook");
         bookService.createBook(book);
         book.setTitle("updatedTitle");
-        assertTrue("book exists".equalsIgnoreCase(bookController.updateBook(book.getId(), token, book).getBody().getMessage()));
+        assertTrue("Book updated successfully".equalsIgnoreCase(bookController.updateBook(book.getId(), token, book).getBody().getMessage()));
         bookService.deleteBook(book);
     }
     @Test
@@ -151,6 +144,6 @@ class BookControllerTest {
         loginForm.setUserType("admin");
         loginResponse = loginController.login(loginForm).getBody();
         String token = loginResponse.getToken();
-        assertTrue("book exists".equalsIgnoreCase(bookController.getAllBooks(token).getBody().getMessage()));
+        assertTrue("Book exists".equalsIgnoreCase(bookController.getAllBooks(token).getBody().getMessage()));
     }
 }

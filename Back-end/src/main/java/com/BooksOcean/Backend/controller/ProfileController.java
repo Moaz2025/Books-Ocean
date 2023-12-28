@@ -26,7 +26,7 @@ public class ProfileController {
     public ResponseEntity<String> editUsername(@RequestHeader ("Authorization") String token, @PathVariable String email, @RequestBody UsernameForm usernameForm){
         token = token.replace("Bearer ", "");
         if(usernameForm.getUserType().equalsIgnoreCase("buyer")){
-            if(buyerService.getBuyerByToken(token) != buyerService.getBuyerByEmail(email)){
+            if(!token.equals(buyerService.getBuyerByEmail(email).getToken())){
                 return new ResponseEntity<>("Not authorized user", HttpStatus.FORBIDDEN);
             }
             Buyer buyer = buyerService.getBuyerByEmail(email);
@@ -36,7 +36,7 @@ public class ProfileController {
             return new ResponseEntity<>("Username changed successfully", HttpStatus.ACCEPTED);
         }
         if(usernameForm.getUserType().equalsIgnoreCase("admin")){
-            if(adminService.getAdminByToken(token) != adminService.getAdminByEmail(email)){
+            if(!token.equals(adminService.getAdminByEmail(email).getToken())){
                 return new ResponseEntity<>("Not authorized user", HttpStatus.FORBIDDEN);
             }
             Admin admin = adminService.getAdminByEmail(email);
@@ -51,7 +51,7 @@ public class ProfileController {
     public ResponseEntity<String> changePassword(@RequestHeader ("Authorization") String token, @PathVariable String email, @RequestBody PasswordForm passwordForm){
         token = token.replace("Bearer ", "");
         if(passwordForm.getUsertype().equalsIgnoreCase("buyer")){
-            if(buyerService.getBuyerByToken(token) != buyerService.getBuyerByEmail(email)){
+            if(!token.equals(buyerService.getBuyerByEmail(email).getToken())){
                 return new ResponseEntity<>("Not authorized user", HttpStatus.FORBIDDEN);
             }
             Buyer buyer = buyerService.getBuyerByEmail(email);
@@ -66,7 +66,7 @@ public class ProfileController {
             return new ResponseEntity<>("Password changed successfully", HttpStatus.ACCEPTED);
         }
         if(passwordForm.getUsertype().equalsIgnoreCase("admin")){
-            if(adminService.getAdminByToken(token) != adminService.getAdminByEmail(email)){
+            if(!token.equals(adminService.getAdminByEmail(email).getToken())){
                 return new ResponseEntity<>("Not authorized user", HttpStatus.FORBIDDEN);
             }
             Admin admin = adminService.getAdminByEmail(email);

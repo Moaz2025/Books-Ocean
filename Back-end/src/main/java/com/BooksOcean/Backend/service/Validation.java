@@ -1,11 +1,14 @@
 package com.BooksOcean.Backend.service;
 
+import org.springframework.stereotype.Component;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class Validation {
     public boolean validateEmail(String email){
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";

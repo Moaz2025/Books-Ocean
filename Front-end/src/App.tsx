@@ -18,6 +18,8 @@ import About from "./pages/about/About";
 import HomeDefault from "./pages/home/HomeDefault";
 import DefaultAdmin from "./pages/dashboard/DefaultAdmin";
 import BookUserPage from "./pages/home/BookUserPage";
+import Promotion from "./pages/dashboard/Promotion";
+import Cart from "./pages/cart/Cart";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +33,7 @@ const router = createBrowserRouter(
         <Route path=":id" element={<BookUserPage />} />
         <Route path="about" element={<About />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="cart" element={<Cart />} />
       </Route>
 
       {/* Admin Route */}
@@ -40,6 +43,7 @@ const router = createBrowserRouter(
         <Route path="add" element={<BooksAdd />} />
         <Route path="about" element={<About />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="promotion" element={<Promotion />} />
       </Route>
 
       {/* Set default routing as log in page*/}
